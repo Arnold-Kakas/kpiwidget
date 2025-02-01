@@ -1,0 +1,115 @@
+---
+title: "getting_started"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{getting_started}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(kpiwidget)
+```
+
+```{r}
+library(crosstalk)
+library(dplyr)
+library(htmltools)
+
+# Example data
+df <- mtcars %>% 
+  mutate(model = rownames(.))
+
+# Wrap in SharedData with row numbers as keys
+sd <- SharedData$new(df, key = ~1:nrow(df), group = "mtcars_group")
+```
+
+```{r}
+filter_checkbox("cyl", "Cylinders", sd, ~cyl, inline = TRUE)
+```
+
+Column parameter must be provided. Default kpi is `count` (lenght of dataset).
+```{r}
+kpiwidget(
+  data = sd,
+  column = "mpg")
+```
+
+## KPI options
+
+### sum
+```{r}
+kpiwidget(
+  data = sd,
+  column = "mpg",
+  kpi = "sum")
+```
+
+### mean
+```{r}
+kpiwidget(
+  data = sd,
+  column = "mpg",
+  kpi = "mean")
+```
+
+### min
+```{r}
+kpiwidget(
+  data = sd,
+  column = "mpg",
+  kpi = "min")
+```
+
+### max
+```{r}
+kpiwidget(
+  data = sd,
+  column = "mpg",
+  kpi = "max")
+```
+
+### count
+```{r}
+kpiwidget(
+  data = sd,
+  column = "mpg",
+  kpi = "count")
+```
+
+### distinctCount
+```{r}
+kpiwidget(
+  data = sd,
+  column = "cyl",
+  kpi = "distinctCount")
+```
+
+### ratio
+```{r}
+kpiwidget(
+  data = sd,
+  column = "mpg",
+  kpi = "sum",
+  comparison = "ratio",
+  group1 = ~cyl == 4)
+```
+
+### share
+```{r}
+kpiwidget(
+  data = sd,
+  column = "mpg",
+  kpi = "sum",
+  comparison = "share",
+  group1 = ~cyl == 4,
+  group2 = ~cyl == 4)
+```
+
