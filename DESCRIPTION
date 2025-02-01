@@ -19,3 +19,4 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+URL: https://arnold-kakas.github.io/kpiwidget/

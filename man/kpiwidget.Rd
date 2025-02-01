@@ -12,7 +12,7 @@ kpiwidget(
   selection = NULL,
   group1 = NULL,
   group2 = NULL,
-  digits = 1,
+  decimals = 1,
   big_mark = " ",
   prefix = NULL,
   suffix = NULL,
@@ -45,7 +45,7 @@ This is required in comparison mode.}
 For \code{comparison = "ratio"}, if not provided, it defaults to the complement of group1.
 For \code{comparison = "share"}, if not provided, it defaults to all rows.}
 
-\item{digits}{Number of digits to round the computed result. Default: 1.}
+\item{decimals}{Number of decimals to round the computed result. Default: 1.}
 
 \item{big_mark}{Character to be used as the thousands separator. Default: " ".}
 
@@ -76,7 +76,7 @@ and \code{group2}.
 \examples{
 \dontrun{
   # Standard KPI example:
-  kpiwidget(mtcars_shared, kpi = "mean", column = "mpg", digits = 1,
+  kpiwidget(mtcars_shared, kpi = "mean", column = "mpg", decimals = 1,
             prefix = "", suffix = " mpg")
 
   # Comparison (ratio) example: ratio of sales between two regions.

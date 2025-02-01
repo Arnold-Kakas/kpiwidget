@@ -1,0 +1,5 @@
+url: https://arnold-kakas.github.io/kpiwidget/
+template:
+  bootstrap: 5
+  bootswatch: flatly
+
