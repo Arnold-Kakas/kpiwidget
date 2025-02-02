@@ -1,3 +1,9 @@
-# kpiwidget (development version)
+# kpiwidget 0.0.1
 
-* Initial CRAN submission.
+This is the first release version of kpiwidget! 🎉
+
+- Added a `NEWS.md` file to track changes to the package.
+- Major functions:
+    - `kpiwidget()`
+- New vignettes:
+    - [Getting started](https://arnold-kakas.github.io/kpiwidget/articles/getting_started.html)
