@@ -44,7 +44,8 @@ Column parameter must be provided. Default kpi is `count` (lenght of dataset).
 ```{r}
 kpiwidget(
   data = sd,
-  column = "mpg")
+  column = "mpg",
+  height = "25px")
 ```
 
 <div>&nbsp;</div>
@@ -57,7 +58,7 @@ kpiwidget(
   data = sd,
   column = "mpg",
   kpi = "sum",
-  height = "50px")
+  height = "25px")
 ```
 
 ### mean
@@ -66,7 +67,7 @@ kpiwidget(
   data = sd,
   column = "mpg",
   kpi = "mean",
-  height = "50px")
+  height = "25px")
 ```
 
 ### min
@@ -75,7 +76,7 @@ kpiwidget(
   data = sd,
   column = "mpg",
   kpi = "min",
-  height = "50px")
+  height = "25px")
 ```
 
 ### max
@@ -84,7 +85,7 @@ kpiwidget(
   data = sd,
   column = "mpg",
   kpi = "max",
-  height = "50px")
+  height = "25px")
 ```
 
 ### count
@@ -93,7 +94,7 @@ kpiwidget(
   data = sd,
   column = "mpg",
   kpi = "count",
-  height = "50px")
+  height = "25px")
 ```
 
 ### distinctCount
@@ -102,7 +103,7 @@ kpiwidget(
   data = sd,
   column = "cyl",
   kpi = "distinctCount",
-  height = "50px")
+  height = "25px")
 ```
 
 ### ratio
@@ -113,7 +114,7 @@ kpiwidget(
   kpi = "sum",
   comparison = "ratio",
   group1 = ~cyl == 4,
-  height = "50px")
+  height = "25px")
 ```
 
 ### share
@@ -125,6 +126,6 @@ kpiwidget(
   comparison = "share",
   group1 = ~cyl == 4,
   group2 = ~cyl == 6,
-  height = "50px")
+  height = "25px")
 ```
 
