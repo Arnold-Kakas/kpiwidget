@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
+library(flexdashboard)
 library(kpiwidget)
 ```
 
@@ -31,9 +32,13 @@ df <- mtcars %>%
 sd <- SharedData$new(df, key = ~1:nrow(df), group = "mtcars_group")
 ```
 
+<div>&nbsp;</div>
+
 ```{r}
 filter_checkbox("cyl", "Cylinders", sd, ~cyl, inline = TRUE)
 ```
+
+<div>&nbsp;</div>
 
 Column parameter must be provided. Default kpi is `count` (lenght of dataset).
 ```{r}
@@ -41,6 +46,8 @@ kpiwidget(
   data = sd,
   column = "mpg")
 ```
+
+<div>&nbsp;</div>
 
 ## KPI options
 
