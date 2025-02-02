@@ -24,7 +24,7 @@
 
 You can install the development version of **kpiwidget** from GitHub using:
 
-```r
+```{r}
 # Install devtools if you don't have it
 install.packages("devtools")
 devtools::install_github("Arnold-Kakas/kpiwidget")

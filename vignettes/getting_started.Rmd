@@ -32,13 +32,11 @@ df <- mtcars %>%
 sd <- SharedData$new(df, key = ~1:nrow(df), group = "mtcars_group")
 ```
 
-<div>&nbsp;</div>
 
 ```{r}
 filter_checkbox("gear", "Gear", sd, ~gear, inline = TRUE)
 ```
 
-<div>&nbsp;</div>
 
 Column parameter must be provided. Default kpi is `count` (lenght of dataset).
 ```{r}
@@ -48,7 +46,6 @@ kpiwidget(
   height = "25px")
 ```
 
-<div>&nbsp;</div>
 
 ## KPI options
 
