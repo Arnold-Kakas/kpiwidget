@@ -32,9 +32,10 @@ devtools::install_github("Arnold-Kakas/kpiwidget")
 
 ## Usage
 
-Before using kpiwidget, ensure your data is wrapped in a crosstalk::SharedData object:
+Before using `kpiwidget`, ensure your data is wrapped in a `crosstalk::SharedData()` object:
 
 ```{r}
+# load libraries
 library(crosstalk)
 library(kpiwidget)
 
