@@ -1,5 +1,5 @@
 ---
-title: "getting_started"
+title: "Getting started"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{getting_started}
@@ -35,7 +35,7 @@ sd <- SharedData$new(df, key = ~1:nrow(df), group = "mtcars_group")
 <div>&nbsp;</div>
 
 ```{r}
-filter_checkbox("cyl", "Cylinders", sd, ~cyl, inline = TRUE)
+filter_checkbox("gear", "Gear", sd, ~gear, inline = TRUE)
 ```
 
 <div>&nbsp;</div>
@@ -56,7 +56,8 @@ kpiwidget(
 kpiwidget(
   data = sd,
   column = "mpg",
-  kpi = "sum")
+  kpi = "sum",
+  height = "50px")
 ```
 
 ### mean
@@ -64,7 +65,8 @@ kpiwidget(
 kpiwidget(
   data = sd,
   column = "mpg",
-  kpi = "mean")
+  kpi = "mean",
+  height = "50px")
 ```
 
 ### min
@@ -72,7 +74,8 @@ kpiwidget(
 kpiwidget(
   data = sd,
   column = "mpg",
-  kpi = "min")
+  kpi = "min",
+  height = "50px")
 ```
 
 ### max
@@ -80,7 +83,8 @@ kpiwidget(
 kpiwidget(
   data = sd,
   column = "mpg",
-  kpi = "max")
+  kpi = "max",
+  height = "50px")
 ```
 
 ### count
@@ -88,7 +92,8 @@ kpiwidget(
 kpiwidget(
   data = sd,
   column = "mpg",
-  kpi = "count")
+  kpi = "count",
+  height = "50px")
 ```
 
 ### distinctCount
@@ -96,7 +101,8 @@ kpiwidget(
 kpiwidget(
   data = sd,
   column = "cyl",
-  kpi = "distinctCount")
+  kpi = "distinctCount",
+  height = "50px")
 ```
 
 ### ratio
@@ -106,7 +112,8 @@ kpiwidget(
   column = "mpg",
   kpi = "sum",
   comparison = "ratio",
-  group1 = ~cyl == 4)
+  group1 = ~cyl == 4,
+  height = "50px")
 ```
 
 ### share
@@ -117,6 +124,7 @@ kpiwidget(
   kpi = "sum",
   comparison = "share",
   group1 = ~cyl == 4,
-  group2 = ~cyl == 4)
+  group2 = ~cyl == 6,
+  height = "50px")
 ```
 
