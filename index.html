@@ -109,12 +109,7 @@ Designed to work exclusively with <code><a href="https://rdrr.io/pkg/crosstalk/m
 <p>sd &lt;- SharedData$new(mtcars)</p>
 </div>
 <div class="section level1">
-<h1 id="standard-kpi-example-display-the-mean-mpg">Standard KPI example: display the mean MPG.<a class="anchor" aria-label="anchor" href="#standard-kpi-example-display-the-mean-mpg"></a>
-</h1>
-<p>kpiwidget(sd, kpi = “mean”, column = “mpg”, digits = 1, prefix = ““, suffix =” mpg”)</p>
-</div>
-<div class="section level1">
-<h1 id="comparison-share-example-display-the-share-of-cars-with-4-cylinders">Comparison (share) example: display the share of cars with 4 cylinders.<a class="anchor" aria-label="anchor" href="#comparison-share-example-display-the-share-of-cars-with-4-cylinders"></a>
+<h1 id="display-the-mean-mpg-of-cars-with-4-cylinders">Display the mean mpg of cars with 4 cylinders.<a class="anchor" aria-label="anchor" href="#display-the-mean-mpg-of-cars-with-4-cylinders"></a>
 </h1>
 <p>kpiwidget(sd, kpi = “mean”, column = “mpg”, selection = ~ cyl == 4 ) ```</p>
 <div class="section level2">
