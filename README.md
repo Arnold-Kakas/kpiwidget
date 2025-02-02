@@ -24,7 +24,7 @@
 
 You can install the development version of **kpiwidget** from GitHub using:
 
-```{r}
+``` r
 # Install devtools if you don't have it
 install.packages("devtools")
 devtools::install_github("Arnold-Kakas/kpiwidget")
@@ -34,7 +34,7 @@ devtools::install_github("Arnold-Kakas/kpiwidget")
 
 Before using `kpiwidget`, ensure your data is wrapped in a `crosstalk::SharedData()` object:
 
-```{r}
+``` r
 # load libraries
 library(crosstalk)
 library(kpiwidget)
