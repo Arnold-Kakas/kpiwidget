@@ -67,7 +67,68 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-Provides an easy way to create interactive KPI cards for Quarto dashboards using Crosstalk. The package enables visualization of key metrics in a structured format, supporting interactive filtering and linking with other Crosstalk-enabled components. Designed for use in Quarto Dashboards.
+
+<div class="section level1">
+<div class="page-header"><h1 id="kpiwidget">kpiwidget<a class="anchor" aria-label="anchor" href="#kpiwidget"></a>
+</h1></div>
+<!-- badges: start -->
+<!-- badges: end -->
+<p><strong>kpiwidget</strong> is an interactive HTML widget for R that displays key performance indicators (KPIs) in Quarto dashboards. This package was inspired by the <a href="https://github.com/kent37/summarywidget" class="external-link">summarywidget</a> package and enhances its functionality by providing additional KPIs (referred to as “statistics” in summarywidget).</p>
+<blockquote>
+<p><strong>Note:</strong> This widget is designed to work only with <code><a href="https://rdrr.io/pkg/crosstalk/man/SharedData.html" class="external-link">crosstalk::SharedData</a></code> objects.</p>
+</blockquote>
+<div class="section level2">
+<h2 id="features">Features<a class="anchor" aria-label="anchor" href="#features"></a>
+</h2>
+<ul>
+<li><p><strong>Enhanced KPI/Statistic Support:</strong><br>
+In addition to basic aggregations like sum, mean, count, min, and max, kpiwidget offers additional KPIs (distinctCount, duplicates) as well as comparison modes (ratio and share) that let you compare groups within your data.</p></li>
+<li><p><strong>Crosstalk Integration:</strong><br>
+Designed to work exclusively with <code><a href="https://rdrr.io/pkg/crosstalk/man/SharedData.html" class="external-link">crosstalk::SharedData</a></code> objects, kpiwidget enables seamless interactive filtering and linking with other widgets on your Quarto dashboard.</p></li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>You can install the development version of <strong>kpiwidget</strong> from GitHub using:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Install devtools if you don't have it</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"Arnold-Kakas/kpiwidget"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
+<p>Before using kpiwidget, ensure your data is wrapped in a crosstalk::SharedData object:</p>
+<p>```{r} library(crosstalk) library(kpiwidget)</p>
+</div>
+</div>
+<div class="section level1">
+<h1 id="wrap-a-dataframe-in-shareddata">Wrap a data.frame in SharedData:<a class="anchor" aria-label="anchor" href="#wrap-a-dataframe-in-shareddata"></a>
+</h1>
+<p>sd &lt;- SharedData$new(mtcars)</p>
+</div>
+<div class="section level1">
+<h1 id="standard-kpi-example-display-the-mean-mpg">Standard KPI example: display the mean MPG.<a class="anchor" aria-label="anchor" href="#standard-kpi-example-display-the-mean-mpg"></a>
+</h1>
+<p>kpiwidget(sd, kpi = “mean”, column = “mpg”, digits = 1, prefix = ““, suffix =” mpg”)</p>
+</div>
+<div class="section level1">
+<h1 id="comparison-share-example-display-the-share-of-cars-with-4-cylinders">Comparison (share) example: display the share of cars with 4 cylinders.<a class="anchor" aria-label="anchor" href="#comparison-share-example-display-the-share-of-cars-with-4-cylinders"></a>
+</h1>
+<p>kpiwidget(sd, kpi = “mean”, column = “mpg”, selection = ~ cyl == 4 ) ```</p>
+<div class="section level2">
+<h2 id="development">Development<a class="anchor" aria-label="anchor" href="#development"></a>
+</h2>
+<p>This package was developed as an enhancement of the functionality provided by summarywidget. Contributions and feedback are welcome—please open an issue or submit a pull request on GitHub.</p>
+</div>
+<div class="section level2">
+<h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
+</h2>
+<p>This package is available under the MIT License.</p>
+</div>
+</div>
+
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
