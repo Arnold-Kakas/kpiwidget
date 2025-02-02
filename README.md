@@ -10,8 +10,11 @@
 
 ## Features
 
-- **Enhanced KPI/Statistic Support:**  
-  In addition to basic aggregations like sum, mean, count, min, and max, kpiwidget offers additional KPIs (distinctCount, duplicates) as well as comparison modes (ratio and share) that let you compare groups within your data.
+- **Enhanced KPI Support:**  
+  kpiwidget offers wider range of KPIs ("count", "distinctCount", "duplicates", "sum", "mean", "min", "max") as well as comparison modes ("ratio" and "share") that let you compare groups within your data.
+  Ratio and share are mathematically very similar (one is essentially the other scaled by 100) but they can convey different meanings. 
+  A "ratio" is expressed as a multiplier (for example, 0.75 or 1.25) while "share" is expressed as a percentage (75% or 125%), which many find more intuitive when thinking in terms of proportions or parts of a whole. 
+  In reporting, one might prefer a ratio when comparing factors directly and a share when emphasizing what portion one group represents of another. 
 
 - **Crosstalk Integration:**  
   Designed to work exclusively with `crosstalk::SharedData` objects, kpiwidget enables seamless interactive filtering and linking with other widgets on your Quarto dashboard.
