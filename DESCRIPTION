@@ -15,6 +15,7 @@ Imports:
     htmlwidgets
 Suggests: 
     dplyr,
+    flexdashboard,
     htmltools,
     knitr,
     rmarkdown

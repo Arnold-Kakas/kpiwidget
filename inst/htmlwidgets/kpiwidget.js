@@ -143,7 +143,7 @@ HTMLWidgets.widget({
         if (x.settings.crosstalk_group) {
           ct_filter.setGroup(x.settings.crosstalk_group);
         }
-        ct_filter.on("change.kpiwidget", function(e) {
+        ct_filter.on("change", function(e) {
           if (e.value && e.value.length > 0) {
             // e.value is expected to be an array of keys (assumed to be 1-indexed).
             var filteredIndices = e.value.map(function(k) { return parseInt(k, 10) - 1; });
