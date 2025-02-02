@@ -37,11 +37,7 @@ library(kpiwidget)
 # Wrap a data.frame in SharedData:
 sd <- SharedData$new(mtcars)
 
-# Standard KPI example: display the mean MPG.
-kpiwidget(sd, kpi = "mean", column = "mpg", digits = 1,
-          prefix = "", suffix = " mpg")
-
-# Comparison (share) example: display the share of cars with 4 cylinders.
+# Display the mean mpg of cars with 4 cylinders.
 kpiwidget(sd, 
           kpi = "mean", 
           column = "mpg",
