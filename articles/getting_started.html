@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>getting_started • kpiwidget</title>
+<title>Getting started • kpiwidget</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="getting_started">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Getting started">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -49,7 +49,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/getting_started.html">getting_started</a>
+      <a href="../articles/getting_started.html">Getting started</a>
     </li>
   </ul>
 </li>
@@ -69,7 +69,7 @@
 <script src="getting_started_files/htmlwidgets-1.6.4/htmlwidgets.js"></script><script src="getting_started_files/kpiwidget-binding-0.0.0.9000/kpiwidget.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>getting_started</h1>
+      <h1 data-toc-skip>Getting started</h1>
             
       
 
@@ -105,25 +105,25 @@
  
 </div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/crosstalk/man/filter_select.html" class="external-link">filter_checkbox</a></span><span class="op">(</span><span class="st">"cyl"</span>, <span class="st">"Cylinders"</span>, <span class="va">sd</span>, <span class="op">~</span><span class="va">cyl</span>, inline <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<div id="cyl" class="form-group crosstalk-input-checkboxgroup crosstalk-input">
-<label class="control-label" for="cyl">Cylinders</label>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/crosstalk/man/filter_select.html" class="external-link">filter_checkbox</a></span><span class="op">(</span><span class="st">"gear"</span>, <span class="st">"Gear"</span>, <span class="va">sd</span>, <span class="op">~</span><span class="va">gear</span>, inline <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<div id="gear" class="form-group crosstalk-input-checkboxgroup crosstalk-input">
+<label class="control-label" for="gear">Gear</label>
 <div class="crosstalk-options-group">
 <label class="checkbox-inline">
-<input type="checkbox" name="cyl" value="4"><span>4</span>
+<input type="checkbox" name="gear" value="3"><span>3</span>
 </label>
 <label class="checkbox-inline">
-<input type="checkbox" name="cyl" value="6"><span>6</span>
+<input type="checkbox" name="gear" value="4"><span>4</span>
 </label>
 <label class="checkbox-inline">
-<input type="checkbox" name="cyl" value="8"><span>8</span>
+<input type="checkbox" name="gear" value="5"><span>5</span>
 </label>
 </div>
-<script type="application/json" data-for="cyl">{
+<script type="application/json" data-for="gear">{
   "map": {
-    "4": [3, 8, 9, 18, 19, 20, 21, 26, 27, 28, 32],
-    "6": [1, 2, 4, 6, 10, 11, 30],
-    "8": [5, 7, 12, 13, 14, 15, 16, 17, 22, 23, 24, 25, 29, 31]
+    "3": [4, 5, 6, 7, 12, 13, 14, 15, 16, 17, 21, 22, 23, 24, 25],
+    "4": [1, 2, 3, 8, 9, 10, 11, 18, 19, 20, 26, 32],
+    "5": [27, 28, 29, 30, 31]
   },
   "group": ["mtcars_group"]
 }</script>
@@ -151,8 +151,9 @@
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/kpiwidget.html">kpiwidget</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">sd</span>,</span>
 <span>  column <span class="op">=</span> <span class="st">"mpg"</span>,</span>
-<span>  kpi <span class="op">=</span> <span class="st">"sum"</span><span class="op">)</span></span></code></pre></div>
-<div class="kpiwidget html-widget html-fill-item" id="htmlwidget-e5c8c404fe174e4c81bd" style="width:700px;height:432.632880098888px;"></div>
+<span>  kpi <span class="op">=</span> <span class="st">"sum"</span>,</span>
+<span>  height <span class="op">=</span> <span class="st">"50px"</span><span class="op">)</span></span></code></pre></div>
+<div id="htmlwidget-e5c8c404fe174e4c81bd" style="width:700px;height:50px;" class="kpiwidget html-widget"></div>
 <script type="application/json" data-for="htmlwidget-e5c8c404fe174e4c81bd">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"sum","comparison":null,"decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="section level3">
@@ -162,8 +163,9 @@
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/kpiwidget.html">kpiwidget</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">sd</span>,</span>
 <span>  column <span class="op">=</span> <span class="st">"mpg"</span>,</span>
-<span>  kpi <span class="op">=</span> <span class="st">"mean"</span><span class="op">)</span></span></code></pre></div>
-<div class="kpiwidget html-widget html-fill-item" id="htmlwidget-36aa3d2a04d42bbc2145" style="width:700px;height:432.632880098888px;"></div>
+<span>  kpi <span class="op">=</span> <span class="st">"mean"</span>,</span>
+<span>  height <span class="op">=</span> <span class="st">"50px"</span><span class="op">)</span></span></code></pre></div>
+<div id="htmlwidget-36aa3d2a04d42bbc2145" style="width:700px;height:50px;" class="kpiwidget html-widget"></div>
 <script type="application/json" data-for="htmlwidget-36aa3d2a04d42bbc2145">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"mean","comparison":null,"decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="section level3">
@@ -173,8 +175,9 @@
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/kpiwidget.html">kpiwidget</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">sd</span>,</span>
 <span>  column <span class="op">=</span> <span class="st">"mpg"</span>,</span>
-<span>  kpi <span class="op">=</span> <span class="st">"min"</span><span class="op">)</span></span></code></pre></div>
-<div class="kpiwidget html-widget html-fill-item" id="htmlwidget-febe03efa1a2d8d52a86" style="width:700px;height:432.632880098888px;"></div>
+<span>  kpi <span class="op">=</span> <span class="st">"min"</span>,</span>
+<span>  height <span class="op">=</span> <span class="st">"50px"</span><span class="op">)</span></span></code></pre></div>
+<div id="htmlwidget-febe03efa1a2d8d52a86" style="width:700px;height:50px;" class="kpiwidget html-widget"></div>
 <script type="application/json" data-for="htmlwidget-febe03efa1a2d8d52a86">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"min","comparison":null,"decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="section level3">
@@ -184,8 +187,9 @@
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/kpiwidget.html">kpiwidget</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">sd</span>,</span>
 <span>  column <span class="op">=</span> <span class="st">"mpg"</span>,</span>
-<span>  kpi <span class="op">=</span> <span class="st">"max"</span><span class="op">)</span></span></code></pre></div>
-<div class="kpiwidget html-widget html-fill-item" id="htmlwidget-1fb4450895fe099f74a1" style="width:700px;height:432.632880098888px;"></div>
+<span>  kpi <span class="op">=</span> <span class="st">"max"</span>,</span>
+<span>  height <span class="op">=</span> <span class="st">"50px"</span><span class="op">)</span></span></code></pre></div>
+<div id="htmlwidget-1fb4450895fe099f74a1" style="width:700px;height:50px;" class="kpiwidget html-widget"></div>
 <script type="application/json" data-for="htmlwidget-1fb4450895fe099f74a1">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"max","comparison":null,"decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="section level3">
@@ -195,8 +199,9 @@
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/kpiwidget.html">kpiwidget</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">sd</span>,</span>
 <span>  column <span class="op">=</span> <span class="st">"mpg"</span>,</span>
-<span>  kpi <span class="op">=</span> <span class="st">"count"</span><span class="op">)</span></span></code></pre></div>
-<div class="kpiwidget html-widget html-fill-item" id="htmlwidget-10b3b7155e8045a1b2ad" style="width:700px;height:432.632880098888px;"></div>
+<span>  kpi <span class="op">=</span> <span class="st">"count"</span>,</span>
+<span>  height <span class="op">=</span> <span class="st">"50px"</span><span class="op">)</span></span></code></pre></div>
+<div id="htmlwidget-10b3b7155e8045a1b2ad" style="width:700px;height:50px;" class="kpiwidget html-widget"></div>
 <script type="application/json" data-for="htmlwidget-10b3b7155e8045a1b2ad">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"count","comparison":null,"decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="section level3">
@@ -206,8 +211,9 @@
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/kpiwidget.html">kpiwidget</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">sd</span>,</span>
 <span>  column <span class="op">=</span> <span class="st">"cyl"</span>,</span>
-<span>  kpi <span class="op">=</span> <span class="st">"distinctCount"</span><span class="op">)</span></span></code></pre></div>
-<div class="kpiwidget html-widget html-fill-item" id="htmlwidget-4018eef1a407a0df6b52" style="width:700px;height:432.632880098888px;"></div>
+<span>  kpi <span class="op">=</span> <span class="st">"distinctCount"</span>,</span>
+<span>  height <span class="op">=</span> <span class="st">"50px"</span><span class="op">)</span></span></code></pre></div>
+<div id="htmlwidget-4018eef1a407a0df6b52" style="width:700px;height:50px;" class="kpiwidget html-widget"></div>
 <script type="application/json" data-for="htmlwidget-4018eef1a407a0df6b52">{"x":{"data":[6,6,4,6,8,6,8,4,4,6,6,8,8,8,8,8,8,4,4,4,4,8,8,8,8,4,4,4,8,6,8,4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"distinctCount","comparison":null,"decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="section level3">
@@ -219,8 +225,9 @@
 <span>  column <span class="op">=</span> <span class="st">"mpg"</span>,</span>
 <span>  kpi <span class="op">=</span> <span class="st">"sum"</span>,</span>
 <span>  comparison <span class="op">=</span> <span class="st">"ratio"</span>,</span>
-<span>  group1 <span class="op">=</span> <span class="op">~</span><span class="va">cyl</span> <span class="op">==</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<div class="kpiwidget html-widget html-fill-item" id="htmlwidget-5b1b2f4ad92281566982" style="width:700px;height:432.632880098888px;"></div>
+<span>  group1 <span class="op">=</span> <span class="op">~</span><span class="va">cyl</span> <span class="op">==</span> <span class="fl">4</span>,</span>
+<span>  height <span class="op">=</span> <span class="st">"50px"</span><span class="op">)</span></span></code></pre></div>
+<div id="htmlwidget-5b1b2f4ad92281566982" style="width:700px;height:50px;" class="kpiwidget html-widget"></div>
 <script type="application/json" data-for="htmlwidget-5b1b2f4ad92281566982">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":[false,false,true,false,false,false,false,true,true,false,false,false,false,false,false,false,false,true,true,true,true,false,false,false,false,true,true,true,false,false,false,true],"group2_filter":[true,true,false,true,true,true,true,false,false,true,true,true,true,true,true,true,true,false,false,false,false,true,true,true,true,false,false,false,true,true,true,false],"settings":{"kpi":"sum","comparison":"ratio","decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="section level3">
@@ -233,9 +240,10 @@
 <span>  kpi <span class="op">=</span> <span class="st">"sum"</span>,</span>
 <span>  comparison <span class="op">=</span> <span class="st">"share"</span>,</span>
 <span>  group1 <span class="op">=</span> <span class="op">~</span><span class="va">cyl</span> <span class="op">==</span> <span class="fl">4</span>,</span>
-<span>  group2 <span class="op">=</span> <span class="op">~</span><span class="va">cyl</span> <span class="op">==</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<div class="kpiwidget html-widget html-fill-item" id="htmlwidget-25c3e940e6859592f801" style="width:700px;height:432.632880098888px;"></div>
-<script type="application/json" data-for="htmlwidget-25c3e940e6859592f801">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":[false,false,true,false,false,false,false,true,true,false,false,false,false,false,false,false,false,true,true,true,true,false,false,false,false,true,true,true,false,false,false,true],"group2_filter":[false,false,true,false,false,false,false,true,true,false,false,false,false,false,false,false,false,true,true,true,true,false,false,false,false,true,true,true,false,false,false,true],"settings":{"kpi":"sum","comparison":"share","decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
+<span>  group2 <span class="op">=</span> <span class="op">~</span><span class="va">cyl</span> <span class="op">==</span> <span class="fl">6</span>,</span>
+<span>  height <span class="op">=</span> <span class="st">"50px"</span><span class="op">)</span></span></code></pre></div>
+<div id="htmlwidget-25c3e940e6859592f801" style="width:700px;height:50px;" class="kpiwidget html-widget"></div>
+<script type="application/json" data-for="htmlwidget-25c3e940e6859592f801">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":[false,false,true,false,false,false,false,true,true,false,false,false,false,false,false,false,false,true,true,true,true,false,false,false,false,true,true,true,false,false,false,true],"group2_filter":[true,true,false,true,false,true,false,false,false,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false],"settings":{"kpi":"sum","comparison":"share","decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
   </div>
