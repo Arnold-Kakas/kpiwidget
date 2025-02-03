@@ -3,3 +3,11 @@ template:
   params:
     bootswatch: flatly
 
+navbar:
+  structure:
+    left: [home, reference, articles, dashboard, news]
+    right: [github]
+  components:
+    dashboard:
+      text: "Dashboard"
+      href: https://arnold-kakas.github.io/Quarto-Customers-Dashboard/
