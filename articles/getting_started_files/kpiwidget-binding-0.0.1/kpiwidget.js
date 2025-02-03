@@ -34,7 +34,7 @@ HTMLWidgets.widget({
 
     // Return the appropriate KPI function.
     function getKpiFunction(kpiType) {
-      switch(kpiType) {
+      switch (kpiType) {
         case "sum": return calcSum;
         case "mean": return calcMean;
         case "count": return calcCount;
@@ -49,7 +49,6 @@ HTMLWidgets.widget({
     }
 
     // --- Thousand Separator Function ---
-    // This function inserts the grouping symbol (bigMark) into the integer part of the number.
     function numberWithSep(x, bigMark) {
       if (typeof x !== "string") {
         x = x.toString();
@@ -65,132 +64,171 @@ HTMLWidgets.widget({
       var prefix = options.prefix || "";
       var suffix = options.suffix || "";
       var bigMark = options.big_mark || " ";
-      var decimals = options.decimals !== undefined ? options.decimals : 0;
+      var decimals = (options.decimals !== undefined) ? options.decimals : 0;
 
-      // Round the number to fixed decimals.
       var fixedValue = parseFloat(value).toFixed(decimals);
-      // Apply thousand separator.
       var formatted = numberWithSep(fixedValue, bigMark);
       return prefix + formatted + suffix;
     }
 
-    // --- Main Update Function ---
-    function updateDisplay(data, group1_filter, group2_filter, settings) {
+    // --- Main update function for arrays ---
+    // Accepts arrays of numeric data plus group booleans, then
+    // applies the KPI logic and updates the text content.
+    function updateDisplay(dataArr, group1Arr, group2Arr, settings) {
       var kpiFunc = getKpiFunction(settings.kpi);
       var result;
 
       if (!settings.comparison) {
-        // Standard mode: compute KPI over all data.
-        result = kpiFunc(data);
+        // Standard mode
+        result = kpiFunc(dataArr);
       } else {
-        // Comparison mode: split data into two groups.
+        // Comparison mode
         var group1Data = [];
         var group2Data = [];
-        for (var i = 0; i < data.length; i++) {
-          if (group1_filter[i]) { group1Data.push(data[i]); }
-          if (group2_filter[i]) { group2Data.push(data[i]); }
+        for (var i = 0; i < dataArr.length; i++) {
+          if (group1Arr[i]) group1Data.push(dataArr[i]);
+          if (group2Arr[i]) group2Data.push(dataArr[i]);
         }
         var agg1 = kpiFunc(group1Data);
         var agg2 = kpiFunc(group2Data);
         if (settings.comparison === "ratio") {
-          result = agg2 === 0 ? 0 : agg1 / agg2;
+          result = (agg2 === 0) ? 0 : agg1 / agg2;
         } else if (settings.comparison === "share") {
-          result = agg2 === 0 ? 0 : (agg1 / agg2) * 100;
+          result = (agg2 === 0) ? 0 : (agg1 / agg2) * 100;
         }
       }
 
-      var formatted = formatNumber(result, settings);
-      el.innerText = formatted;
+      el.innerText = formatNumber(result, settings);
     }
 
-    // --- Data Storage for Full (Unfiltered) Values ---
-    var fullData = null;
-    var fullGroup1 = null;
-    var fullGroup2 = null;
-    var currentSettings = null;
+    // We'll store everything in a dictionary: key -> { value, g1, g2 }
+    // That way, we can easily filter based on Crosstalk events by looking up keys.
+    var dataMap = {};          // key -> {value, g1, g2}
+    var settings = null;       // store settings for use in filter events
+    var hasComparison = false; // indicates if comparison is active
 
-    // --- Crosstalk Filter Subscription ---
+    // Helper to rebuild arrays from a subset of dataMap
+    function buildArrays(subsetObj) {
+      var dataArr = [];
+      var group1Arr = [];
+      var group2Arr = [];
+      // subsetObj is an object with the same shape as dataMap, but only for the chosen keys
+      for (var k in subsetObj) {
+        if (subsetObj.hasOwnProperty(k)) {
+          dataArr.push(subsetObj[k].value);
+          if (hasComparison) {
+            group1Arr.push(subsetObj[k].g1);
+            group2Arr.push(subsetObj[k].g2);
+          }
+        }
+      }
+      return { dataArr: dataArr, g1Arr: group1Arr, g2Arr: group2Arr };
+    }
+
+    // Filter an existing dictionary by a set of keys
+    function filterByKeys(fullObj, keyArray) {
+      var filtered = {};
+      keyArray.forEach(function(k) {
+        if (fullObj.hasOwnProperty(k)) {
+          filtered[k] = fullObj[k];
+        }
+      });
+      return filtered;
+    }
+
+    // The full (unfiltered) dataMap, for resetting
+    var fullDataMap = {};
+
+    // Crosstalk filter
     var ct_filter = new crosstalk.FilterHandle();
+    // We could also subscribe to selection if you wish
+    // var ct_sel = new crosstalk.SelectionHandle();
 
     return {
       renderValue: function(x) {
-        // Ensure data is in array form.
+
+        // 1. Parse data if needed
         if (typeof x.data === "string") {
           try {
             x.data = JSON.parse(x.data);
-          } catch(err) {
+          } catch (err) {
             console.error("Error parsing x.data:", err);
           }
         }
         if (typeof x.key === "string") {
           try {
             x.key = JSON.parse(x.key);
-          } catch(err) {
+          } catch (err) {
             console.error("Error parsing x.key:", err);
           }
         }
 
-        // Save full data and settings.
-        fullData = x.data;
-        currentSettings = x.settings;
-        if (x.settings.comparison) {
-          fullGroup1 = x.group1_filter;
-          fullGroup2 = x.group2_filter;
-        }
+        // 2. Save to local variables
+        settings = x.settings;
+        hasComparison = !!x.settings.comparison; // force boolean
 
-        // WORKAROUND: In comparison mode, if no data was provided, default to counts.
-        if (x.settings.comparison && (!x.data || x.data.length === 0)) {
-          console.warn("No data provided for comparison mode; defaulting to counts.");
-          if (fullGroup1 && fullGroup1.length) {
-            x.data = new Array(fullGroup1.length).fill(1);
-            fullData = x.data;
+        // If no data was provided in comparison mode, fallback to an array of 1s
+        if (hasComparison && (!x.data || x.data.length === 0)) {
+          if (x.group1_filter && x.group1_filter.length) {
+            x.data = new Array(x.group1_filter.length).fill(1);
           }
         }
 
-        // Initial display update.
-        if (!x.settings.comparison) {
-          updateDisplay(fullData, null, null, x.settings);
+        // 3. Build dataMap (key -> object).
+        //    If x.key is null, just use 0..N as keys
+        dataMap = {};
+        if (!x.key) {
+          for (var i = 0; i < x.data.length; i++) {
+            dataMap[i] = {
+              value: x.data[i],
+              g1: hasComparison ? x.group1_filter[i] : null,
+              g2: hasComparison ? x.group2_filter[i] : null
+            };
+          }
         } else {
-          updateDisplay(fullData, fullGroup1, fullGroup2, x.settings);
+          for (var i = 0; i < x.key.length; i++) {
+            dataMap[x.key[i]] = {
+              value: x.data[i],
+              g1: hasComparison ? x.group1_filter[i] : null,
+              g2: hasComparison ? x.group2_filter[i] : null
+            };
+          }
         }
 
-        // Set up Crosstalk filter subscription.
-        if (x.settings.crosstalk_group) {
-          ct_filter.setGroup(x.settings.crosstalk_group);
+        // Keep a copy of the full dataMap so we can revert if no filters are active
+        fullDataMap = dataMap;
+
+        // 4. Initial update
+        var initialArrays = buildArrays(fullDataMap);
+        updateDisplay(initialArrays.dataArr, initialArrays.g1Arr, initialArrays.g2Arr, settings);
+
+        // 5. Crosstalk group setup
+        if (settings.crosstalk_group) {
+          ct_filter.setGroup(settings.crosstalk_group);
+          // or ct_sel.setGroup(settings.crosstalk_group);
         }
+
+        // 6. Listen for filter events
         ct_filter.on("change", function(e) {
           if (e.value && e.value.length > 0) {
-            // Instead of parseInt, find the index via x.key.indexOf(k).
-            var filteredIndices = [];
-            e.value.forEach(function(k) {
-              var idx = x.key.indexOf(k);
-              if (idx > -1) {
-                filteredIndices.push(idx);
-              }
-            });
-
-            // Build filtered arrays for data and group filters
-            var filteredData = [];
-            var filteredGroup1 = x.settings.comparison ? [] : null;
-            var filteredGroup2 = x.settings.comparison ? [] : null;
-            for (var i = 0; i < filteredIndices.length; i++) {
-              var realIndex = filteredIndices[i];
-              filteredData.push(fullData[realIndex]);
-              if (x.settings.comparison) {
-                filteredGroup1.push(fullGroup1[realIndex]);
-                filteredGroup2.push(fullGroup2[realIndex]);
-              }
-            }
-            updateDisplay(filteredData, filteredGroup1, filteredGroup2, x.settings);
+            // Build a subset of dataMap
+            var subset = filterByKeys(fullDataMap, e.value);
+            var arrays = buildArrays(subset);
+            updateDisplay(arrays.dataArr, arrays.g1Arr, arrays.g2Arr, settings);
           } else {
-            // No active filter: revert to full data.
-            updateDisplay(fullData, fullGroup1, fullGroup2, x.settings);
+            // No active filter => revert to full
+            var allArrays = buildArrays(fullDataMap);
+            updateDisplay(allArrays.dataArr, allArrays.g1Arr, allArrays.g2Arr, settings);
           }
         });
+
+        // Similarly, if you also want to listen for selection events:
+        // ct_sel.on("change", function(e) { ... })
+
       },
 
       resize: function(width, height) {
-        // No special resizing logic is needed.
+        // No special resizing logic is needed here
       }
     };
   }
