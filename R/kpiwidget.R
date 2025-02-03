@@ -167,16 +167,21 @@ kpiwidget <- function(
 
     # Evaluate group1 filter (must be a one-sided formula).
     if (!inherits(group1, 'formula')) {
-      warning("group1 must be a one-sided formula.")
+      warning("group1 must be a one-sided formula. Remove single/double quotes if you used them.")
       return(NULL)
     }
+    if (length(group1) != 2L) {
+      warning("Unexpected two-sided formula in group2: ", deparse(group1))
+      return(NULL)
+    }
+
     group1_filter <- eval(group1[[2]], data, environment(group1))
     group1_filter[is.na(group1_filter)] <- FALSE
 
-    # Evaluate group2 filter.
+    # Evaluate group2 filter (must be a one-sided formula).
     if (!is.null(group2)) {
       if (!inherits(group2, 'formula')) {
-        warning("group2 must be a one-sided formula.")
+        warning("group2 must be a one-sided formula or remain blank. Remove single/double quotes if you used them.")
         return(NULL)
       }
       if (length(group2) != 2L) {
