@@ -74,15 +74,16 @@ HTMLWidgets.widget({
     }
 
     // --- Main Update Function ---
+    // In standard mode, we apply the KPI function to the full data.
+    // In comparison mode, we filter the data using the boolean arrays,
+    // compute aggregates for each group, then compute either a ratio or a share.
     function updateDisplay(data, group1_filter, group2_filter, settings) {
       var kpiFunc = getKpiFunction(settings.kpi);
       var result;
 
       if (!settings.comparison) {
-        // Standard mode: compute KPI over all data.
         result = kpiFunc(data);
       } else {
-        // Comparison mode: separate the data into two groups.
         var group1Data = [];
         var group2Data = [];
         for (var i = 0; i < data.length; i++) {
@@ -159,8 +160,9 @@ HTMLWidgets.widget({
         }
         ct_filter.on("change.kpiwidget", function(e) {
           if (e.value && e.value.length > 0) {
-            // Here we assume the keys provided by Crosstalk are already zero-indexed.
-            var filteredIndices = e.value.map(function(k) { return parseInt(k, 10); });
+            // Assuming the keys are one-indexed in the SharedData,
+            // subtract 1 so that we correctly index the JavaScript array.
+            var filteredIndices = e.value.map(function(k) { return parseInt(k, 10) - 1; });
             var filteredData = [];
             var filteredGroup1 = x.settings.comparison ? [] : null;
             var filteredGroup2 = x.settings.comparison ? [] : null;
@@ -174,7 +176,6 @@ HTMLWidgets.widget({
             }
             updateDisplay(filteredData, filteredGroup1, filteredGroup2, x.settings);
           } else {
-            // No active filter: revert to full data.
             updateDisplay(fullData, fullGroup1, fullGroup2, x.settings);
           }
         });
