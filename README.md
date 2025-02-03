@@ -3,6 +3,7 @@
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/Arnold-Kakas/kpiwidget/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Arnold-Kakas/kpiwidget/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/Arnold-Kakas/kpiwidget/branch/main/graph/badge.svg)](https://app.codecov.io/gh/Arnold-Kakas/kpiwidget?branch=main)
 <!-- badges: end -->
 
 **kpiwidget** is an interactive HTML widget for R that displays key performance indicators (KPIs) in Quarto dashboards. This package was inspired by the [summarywidget](https://github.com/kent37/summarywidget) package and enhances its functionality by providing additional KPIs (referred to as "statistics" in summarywidget).
