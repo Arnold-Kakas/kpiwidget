@@ -81,11 +81,31 @@
 
     
     
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<p>The <code>kpiwidget</code> package provides an easy way to create KPI
+(Key Performance Indicator) widgets for dashboards using
+<code>crosstalk</code> shared data. This vignette demonstrates different
+options and functionalities available in <code>kpiwidget</code>.</p>
+</div>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>Before using <code>kpiwidget</code>, ensure that it is installed
+along with <code>crosstalk</code>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://pkgs.rstudio.com/flexdashboard/" class="external-link">flexdashboard</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://arnold-kakas.github.io/kpiwidget/">kpiwidget</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co">#install.packages("crosstalk")</span></span>
+<span><span class="co"># Install kpiwidget from CRAN or GitHub</span></span>
+<span><span class="co"># install.packages("kpiwidget")</span></span>
+<span><span class="co"># devtools::install_github("your_github/kpiwidget")</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="loading-required-libraries">Loading Required Libraries<a class="anchor" aria-label="anchor" href="#loading-required-libraries"></a>
+</h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/crosstalk/" class="external-link">crosstalk</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://arnold-kakas.github.io/kpiwidget/">kpiwidget</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/crosstalk/" class="external-link">crosstalk</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
@@ -95,16 +115,25 @@
 <span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/htmltools" class="external-link">htmltools</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Example data</span></span>
-<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">mtcars</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>model <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Wrap in SharedData with row numbers as keys</span></span>
-<span><span class="va">sd</span> <span class="op">&lt;-</span> <span class="va"><a href="https://rdrr.io/pkg/crosstalk/man/SharedData.html" class="external-link">SharedData</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">df</span>, key <span class="op">=</span> <span class="op">~</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span>, group <span class="op">=</span> <span class="st">"mtcars_group"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/htmltools" class="external-link">htmltools</a></span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="creating-a-shared-data-object">Creating a Shared Data Object<a class="anchor" aria-label="anchor" href="#creating-a-shared-data-object"></a>
+</h2>
+<p>To enable interactivity, we first wrap our dataset in
+<code>SharedData</code> from <code>crosstalk</code>. This allows
+filtering across multiple widgets using the same dataset.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/crosstalk/man/filter_select.html" class="external-link">filter_checkbox</a></span><span class="op">(</span><span class="st">"gear"</span>, <span class="st">"Gear"</span>, <span class="va">sd</span>, <span class="op">~</span><span class="va">gear</span>, inline <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Create a shared data object with row numbers as keys</span></span>
+<span><span class="va">df_shared</span> <span class="op">&lt;-</span> <span class="va"><a href="https://rdrr.io/pkg/crosstalk/man/SharedData.html" class="external-link">SharedData</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">mtcars</span>, key <span class="op">=</span> <span class="op">~</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, group <span class="op">=</span> <span class="st">"mtcars_group"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="adding-filters">Adding Filters<a class="anchor" aria-label="anchor" href="#adding-filters"></a>
+</h2>
+<p><code>crosstalk</code> allows dynamic filtering of data. Here, we add
+a filter to select vehicles based on the number of gears:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/crosstalk/man/filter_select.html" class="external-link">filter_checkbox</a></span><span class="op">(</span><span class="st">"gear"</span>, <span class="st">"Gear"</span>, <span class="va">df_shared</span>, <span class="op">~</span><span class="va">gear</span>, inline <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div id="gear" class="form-group crosstalk-input-checkboxgroup crosstalk-input">
 <label class="control-label" for="gear">Gear</label>
 <div class="crosstalk-options-group">
@@ -127,118 +156,298 @@
   "group": ["mtcars_group"]
 }</script>
 </div>
-<p>Column parameter must be provided. Default kpi is <code>count</code>
-(lenght of dataset).</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/kpiwidget.html">kpiwidget</a></span><span class="op">(</span></span>
-<span>  data <span class="op">=</span> <span class="va">sd</span>,</span>
-<span>  column <span class="op">=</span> <span class="st">"mpg"</span>,</span>
-<span>  height <span class="op">=</span> <span class="st">"25px"</span><span class="op">)</span></span></code></pre></div>
-<div id="htmlwidget-ac96cb3ee4656e2e9ec3" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ac96cb3ee4656e2e9ec3">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"count","comparison":null,"decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script><div class="section level2">
-<h2 id="kpi-options">KPI options<a class="anchor" aria-label="anchor" href="#kpi-options"></a>
+</div>
+<div class="section level2">
+<h2 id="using-kpiwidget">Using <code>kpiwidget</code><a class="anchor" aria-label="anchor" href="#using-kpiwidget"></a>
 </h2>
-<div class="section level3">
-<h3 id="sum">sum<a class="anchor" aria-label="anchor" href="#sum"></a>
-</h3>
+<p>The <code>kpiwidget</code> function provides a simple way to display
+key performance indicators. The <code>column</code> parameter is
+required, and by default, it calculates the count (number of rows in the
+dataset).</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/kpiwidget.html">kpiwidget</a></span><span class="op">(</span></span>
-<span>  data <span class="op">=</span> <span class="va">sd</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">df_shared</span>,</span>
+<span>  column <span class="op">=</span> <span class="st">"mpg"</span>,</span>
+<span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div id="htmlwidget-ac96cb3ee4656e2e9ec3" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ac96cb3ee4656e2e9ec3">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"count","comparison":null,"decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script><div class="section level3">
+<h3 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a>
+</h3>
+<ul>
+<li>data - A crosstalk::SharedData object.</li>
+<li>kpi - A character string specifying the metric to compute. Options:
+count, distinctCount, duplicates, sum, mean, min, max. Default is
+count.</li>
+<li>comparison - A character string indicating a comparison mode.
+Options are ratio or share. Default is NULL.</li>
+<li>column - A column name (as a string) to be used for numeric
+aggregation. Default is NULL, this parameter is REQUIRED.</li>
+<li>selection - A one-sided formula. Serves as a global filter. Default
+is NULL.</li>
+<li>group1 - For comparison mode: a one-sided formula defining group 1.
+This is required in comparison mode. Default is NULL.</li>
+<li>group2 - For comparison mode: a one-sided formula defining group 2.
+For comparison = “ratio”, if not provided, it defaults to the complement
+of group1. For comparison = “share”, if not provided, it defaults to all
+rows. Default is NULL.</li>
+<li>decimals - Number of decimals to round the computed result. Default
+is 1.</li>
+<li>big_mark - Character to be used as the thousands separator. Default
+is ” “.</li>
+<li>prefix - A string to be prepended to the displayed value. Default is
+NULL.</li>
+<li>suffix - A string to be appended to the displayed value. Default is
+NULL.</li>
+<li>width - Widget width (passed to htmlwidgets::createWidget). Default
+is NULL.</li>
+<li>height - Widget height (passed to htmlwidgets::createWidget).
+Default is NULL.</li>
+<li>elementId - Optional element ID for the widget. Default is
+NULL.</li>
+<li>group - Crosstalk group name. Typically provided by the SharedData
+object. Default is NULL.</li>
+</ul>
+</div>
+</div>
+<div class="section level2">
+<h2 id="kpi-options">KPI Options<a class="anchor" aria-label="anchor" href="#kpi-options"></a>
+</h2>
+<p>The <code>kpi</code> parameter allows different types of
+calculations. Below, we demonstrate various options available in
+<code>kpiwidget</code>.</p>
+<div class="section level3">
+<h3 id="sum">Sum<a class="anchor" aria-label="anchor" href="#sum"></a>
+</h3>
+<p>Calculates the sum of the selected column.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/kpiwidget.html">kpiwidget</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">df_shared</span>,</span>
 <span>  column <span class="op">=</span> <span class="st">"mpg"</span>,</span>
 <span>  kpi <span class="op">=</span> <span class="st">"sum"</span>,</span>
-<span>  height <span class="op">=</span> <span class="st">"25px"</span><span class="op">)</span></span></code></pre></div>
+<span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <div id="htmlwidget-e5c8c404fe174e4c81bd" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
 <script type="application/json" data-for="htmlwidget-e5c8c404fe174e4c81bd">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"sum","comparison":null,"decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="section level3">
-<h3 id="mean">mean<a class="anchor" aria-label="anchor" href="#mean"></a>
+<h3 id="mean">Mean<a class="anchor" aria-label="anchor" href="#mean"></a>
 </h3>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<p>Computes the average (mean) of the selected column.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/kpiwidget.html">kpiwidget</a></span><span class="op">(</span></span>
-<span>  data <span class="op">=</span> <span class="va">sd</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">df_shared</span>,</span>
 <span>  column <span class="op">=</span> <span class="st">"mpg"</span>,</span>
 <span>  kpi <span class="op">=</span> <span class="st">"mean"</span>,</span>
-<span>  height <span class="op">=</span> <span class="st">"25px"</span><span class="op">)</span></span></code></pre></div>
+<span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <div id="htmlwidget-36aa3d2a04d42bbc2145" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
 <script type="application/json" data-for="htmlwidget-36aa3d2a04d42bbc2145">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"mean","comparison":null,"decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="section level3">
-<h3 id="min">min<a class="anchor" aria-label="anchor" href="#min"></a>
+<h3 id="minimum">Minimum<a class="anchor" aria-label="anchor" href="#minimum"></a>
 </h3>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<p>Finds the minimum value in the selected column.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/kpiwidget.html">kpiwidget</a></span><span class="op">(</span></span>
-<span>  data <span class="op">=</span> <span class="va">sd</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">df_shared</span>,</span>
 <span>  column <span class="op">=</span> <span class="st">"mpg"</span>,</span>
 <span>  kpi <span class="op">=</span> <span class="st">"min"</span>,</span>
-<span>  height <span class="op">=</span> <span class="st">"25px"</span><span class="op">)</span></span></code></pre></div>
+<span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <div id="htmlwidget-febe03efa1a2d8d52a86" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
 <script type="application/json" data-for="htmlwidget-febe03efa1a2d8d52a86">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"min","comparison":null,"decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="section level3">
-<h3 id="max">max<a class="anchor" aria-label="anchor" href="#max"></a>
+<h3 id="maximum">Maximum<a class="anchor" aria-label="anchor" href="#maximum"></a>
 </h3>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<p>Finds the maximum value in the selected column.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/kpiwidget.html">kpiwidget</a></span><span class="op">(</span></span>
-<span>  data <span class="op">=</span> <span class="va">sd</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">df_shared</span>,</span>
 <span>  column <span class="op">=</span> <span class="st">"mpg"</span>,</span>
 <span>  kpi <span class="op">=</span> <span class="st">"max"</span>,</span>
-<span>  height <span class="op">=</span> <span class="st">"25px"</span><span class="op">)</span></span></code></pre></div>
+<span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <div id="htmlwidget-1fb4450895fe099f74a1" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
 <script type="application/json" data-for="htmlwidget-1fb4450895fe099f74a1">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"max","comparison":null,"decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="section level3">
-<h3 id="count">count<a class="anchor" aria-label="anchor" href="#count"></a>
+<h3 id="count">Count<a class="anchor" aria-label="anchor" href="#count"></a>
 </h3>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<p>Counts the number of rows in the dataset.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/kpiwidget.html">kpiwidget</a></span><span class="op">(</span></span>
-<span>  data <span class="op">=</span> <span class="va">sd</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">df_shared</span>,</span>
 <span>  column <span class="op">=</span> <span class="st">"mpg"</span>,</span>
 <span>  kpi <span class="op">=</span> <span class="st">"count"</span>,</span>
-<span>  height <span class="op">=</span> <span class="st">"25px"</span><span class="op">)</span></span></code></pre></div>
+<span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <div id="htmlwidget-10b3b7155e8045a1b2ad" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
 <script type="application/json" data-for="htmlwidget-10b3b7155e8045a1b2ad">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"count","comparison":null,"decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="section level3">
-<h3 id="distinctcount">distinctCount<a class="anchor" aria-label="anchor" href="#distinctcount"></a>
+<h3 id="distinct-count">Distinct Count<a class="anchor" aria-label="anchor" href="#distinct-count"></a>
 </h3>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<p>Counts the number of unique values in the selected column.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/kpiwidget.html">kpiwidget</a></span><span class="op">(</span></span>
-<span>  data <span class="op">=</span> <span class="va">sd</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">df_shared</span>,</span>
 <span>  column <span class="op">=</span> <span class="st">"cyl"</span>,</span>
 <span>  kpi <span class="op">=</span> <span class="st">"distinctCount"</span>,</span>
-<span>  height <span class="op">=</span> <span class="st">"25px"</span><span class="op">)</span></span></code></pre></div>
+<span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <div id="htmlwidget-4018eef1a407a0df6b52" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
 <script type="application/json" data-for="htmlwidget-4018eef1a407a0df6b52">{"x":{"data":[6,6,4,6,8,6,8,4,4,6,6,8,8,8,8,8,8,4,4,4,4,8,8,8,8,4,4,4,8,6,8,4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"distinctCount","comparison":null,"decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
 </div>
-<div class="section level3">
-<h3 id="ratio">ratio<a class="anchor" aria-label="anchor" href="#ratio"></a>
-</h3>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/kpiwidget.html">kpiwidget</a></span><span class="op">(</span></span>
-<span>  data <span class="op">=</span> <span class="va">sd</span>,</span>
-<span>  column <span class="op">=</span> <span class="st">"mpg"</span>,</span>
-<span>  kpi <span class="op">=</span> <span class="st">"sum"</span>,</span>
-<span>  comparison <span class="op">=</span> <span class="st">"ratio"</span>,</span>
-<span>  group1 <span class="op">=</span> <span class="op">~</span><span class="va">cyl</span> <span class="op">==</span> <span class="fl">4</span>,</span>
-<span>  height <span class="op">=</span> <span class="st">"25px"</span><span class="op">)</span></span></code></pre></div>
-<div id="htmlwidget-5b1b2f4ad92281566982" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
-<script type="application/json" data-for="htmlwidget-5b1b2f4ad92281566982">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":[false,false,true,false,false,false,false,true,true,false,false,false,false,false,false,false,false,true,true,true,true,false,false,false,false,true,true,true,false,false,false,true],"group2_filter":[true,true,false,true,true,true,true,false,false,true,true,true,true,true,true,true,true,false,false,false,false,true,true,true,true,false,false,false,true,true,true,false],"settings":{"kpi":"sum","comparison":"ratio","decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
 </div>
+<div class="section level2">
+<h2 id="comparison-options">Comparison Options<a class="anchor" aria-label="anchor" href="#comparison-options"></a>
+</h2>
 <div class="section level3">
-<h3 id="share">share<a class="anchor" aria-label="anchor" href="#share"></a>
+<h3 id="ratio">Ratio<a class="anchor" aria-label="anchor" href="#ratio"></a>
 </h3>
+<p>Calculates the ratio of a subset defined with <code>group1</code>
+parameter (e.g., cars with 4 cylinders) compared to the complement of
+group1 filter (default setting for “ratio”) or to the subset defined
+with <code>group2</code> parameter.</p>
+<p>default:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/kpiwidget.html">kpiwidget</a></span><span class="op">(</span></span>
-<span>  data <span class="op">=</span> <span class="va">sd</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">df_shared</span>,</span>
 <span>  column <span class="op">=</span> <span class="st">"mpg"</span>,</span>
-<span>  kpi <span class="op">=</span> <span class="st">"sum"</span>,</span>
-<span>  comparison <span class="op">=</span> <span class="st">"share"</span>,</span>
+<span>  kpi <span class="op">=</span> <span class="st">"mean"</span>,</span>
+<span>  comparison <span class="op">=</span> <span class="st">"ratio"</span>,</span>
+<span>  group1 <span class="op">=</span> <span class="op">~</span><span class="va">cyl</span> <span class="op">==</span> <span class="fl">4</span>,</span>
+<span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div id="htmlwidget-5b1b2f4ad92281566982" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5b1b2f4ad92281566982">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":[false,false,true,false,false,false,false,true,true,false,false,false,false,false,false,false,false,true,true,true,true,false,false,false,false,true,true,true,false,false,false,true],"group2_filter":[true,true,false,true,true,true,true,false,false,true,true,true,true,true,true,true,true,false,false,false,false,true,true,true,true,false,false,false,true,true,true,false],"settings":{"kpi":"mean","comparison":"ratio","decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script><p>group2:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/kpiwidget.html">kpiwidget</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">df_shared</span>,</span>
+<span>  column <span class="op">=</span> <span class="st">"mpg"</span>,</span>
+<span>  kpi <span class="op">=</span> <span class="st">"mean"</span>,</span>
+<span>  comparison <span class="op">=</span> <span class="st">"ratio"</span>,</span>
 <span>  group1 <span class="op">=</span> <span class="op">~</span><span class="va">cyl</span> <span class="op">==</span> <span class="fl">4</span>,</span>
 <span>  group2 <span class="op">=</span> <span class="op">~</span><span class="va">cyl</span> <span class="op">==</span> <span class="fl">6</span>,</span>
-<span>  height <span class="op">=</span> <span class="st">"25px"</span><span class="op">)</span></span></code></pre></div>
+<span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <div id="htmlwidget-25c3e940e6859592f801" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
-<script type="application/json" data-for="htmlwidget-25c3e940e6859592f801">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":[false,false,true,false,false,false,false,true,true,false,false,false,false,false,false,false,false,true,true,true,true,false,false,false,false,true,true,true,false,false,false,true],"group2_filter":[true,true,false,true,false,true,false,false,false,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false],"settings":{"kpi":"sum","comparison":"share","decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-25c3e940e6859592f801">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":[false,false,true,false,false,false,false,true,true,false,false,false,false,false,false,false,false,true,true,true,true,false,false,false,false,true,true,true,false,false,false,true],"group2_filter":[true,true,false,true,false,true,false,false,false,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false],"settings":{"kpi":"mean","comparison":"ratio","decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
 </div>
+<div class="section level3">
+<h3 id="share">Share<a class="anchor" aria-label="anchor" href="#share"></a>
+</h3>
+<p>Computes the share between two groups (e.g., cars with 4 cylinders
+and full dataset or subset defined with <code>group2</code>
+pamarater).</p>
+<p>default:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/kpiwidget.html">kpiwidget</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">df_shared</span>,</span>
+<span>  column <span class="op">=</span> <span class="st">"mpg"</span>,</span>
+<span>  kpi <span class="op">=</span> <span class="st">"count"</span>,</span>
+<span>  comparison <span class="op">=</span> <span class="st">"share"</span>,</span>
+<span>  group1 <span class="op">=</span> <span class="op">~</span><span class="va">cyl</span> <span class="op">==</span> <span class="fl">4</span>,</span>
+<span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div id="htmlwidget-3f27c09be0c60bb52829" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3f27c09be0c60bb52829">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":[false,false,true,false,false,false,false,true,true,false,false,false,false,false,false,false,false,true,true,true,true,false,false,false,false,true,true,true,false,false,false,true],"group2_filter":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],"settings":{"kpi":"count","comparison":"share","decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script><p>group2:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/kpiwidget.html">kpiwidget</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">df_shared</span>,</span>
+<span>  column <span class="op">=</span> <span class="st">"mpg"</span>,</span>
+<span>  kpi <span class="op">=</span> <span class="st">"count"</span>,</span>
+<span>  comparison <span class="op">=</span> <span class="st">"share"</span>,</span>
+<span>  group1 <span class="op">=</span> <span class="op">~</span><span class="va">cyl</span> <span class="op">==</span> <span class="fl">4</span>,</span>
+<span>  group2 <span class="op">=</span> <span class="op">~</span><span class="va">cyl</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">6</span><span class="op">)</span>,</span>
+<span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div id="htmlwidget-416566eb193bf50d04e6" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
+<script type="application/json" data-for="htmlwidget-416566eb193bf50d04e6">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":[false,false,true,false,false,false,false,true,true,false,false,false,false,false,false,false,false,true,true,true,true,false,false,false,false,true,true,true,false,false,false,true],"group2_filter":[true,true,true,true,false,true,false,true,true,true,true,false,false,false,false,false,false,true,true,true,true,false,false,false,false,true,true,true,false,true,false,true],"settings":{"kpi":"count","comparison":"share","decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script><p>using selection:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/kpiwidget.html">kpiwidget</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">df_shared</span>,</span>
+<span>  column <span class="op">=</span> <span class="st">"mpg"</span>,</span>
+<span>  kpi <span class="op">=</span> <span class="st">"count"</span>,</span>
+<span>  selection <span class="op">=</span> <span class="op">~</span><span class="va">cyl</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">6</span><span class="op">)</span>,</span>
+<span>  comparison <span class="op">=</span> <span class="st">"share"</span>,</span>
+<span>  group1 <span class="op">=</span> <span class="op">~</span><span class="va">cyl</span> <span class="op">==</span> <span class="fl">4</span>,</span>
+<span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div id="htmlwidget-72cbf064100ce560a04c" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
+<script type="application/json" data-for="htmlwidget-72cbf064100ce560a04c">{"x":{"data":[21,21,22.8,21.4,18.1,24.4,22.8,19.2,17.8,32.4,30.4,33.9,21.5,27.3,26,30.4,19.7,21.4],"key":[1,2,3,4,6,8,9,10,11,18,19,20,21,26,27,28,30,32],"group1_filter":[false,false,true,false,false,true,true,false,false,true,true,true,true,true,true,true,false,true],"group2_filter":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],"settings":{"kpi":"count","comparison":"share","decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="section level2">
+<h2 id="formatting-options">Formatting Options<a class="anchor" aria-label="anchor" href="#formatting-options"></a>
+</h2>
+<div class="section level3">
+<h3 id="decimals">Decimals<a class="anchor" aria-label="anchor" href="#decimals"></a>
+</h3>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/kpiwidget.html">kpiwidget</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">df_shared</span>,</span>
+<span>  column <span class="op">=</span> <span class="st">"mpg"</span>,</span>
+<span>  kpi <span class="op">=</span> <span class="st">"mean"</span>,</span>
+<span>  decimals <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div id="htmlwidget-d11fc4360aa0230696d7" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d11fc4360aa0230696d7">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"mean","comparison":null,"decimals":3,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div class="section level3">
+<h3 id="big-mark">Big Mark<a class="anchor" aria-label="anchor" href="#big-mark"></a>
+</h3>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/kpiwidget.html">kpiwidget</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">df_shared</span>,</span>
+<span>  column <span class="op">=</span> <span class="st">"disp"</span>,</span>
+<span>  kpi <span class="op">=</span> <span class="st">"sum"</span>,</span>
+<span>  big_mark <span class="op">=</span> <span class="st">"."</span>,</span>
+<span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div id="htmlwidget-21c7483268bafca56cec" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
+<script type="application/json" data-for="htmlwidget-21c7483268bafca56cec">{"x":{"data":[160,160,108,258,360,225,360,146.7,140.8,167.6,167.6,275.8,275.8,275.8,472,460,440,78.7,75.7,71.09999999999999,120.1,318,304,350,400,79,120.3,95.09999999999999,351,145,301,121],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"sum","comparison":null,"decimals":1,"big_mark":".","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div class="section level3">
+<h3 id="prefix">Prefix<a class="anchor" aria-label="anchor" href="#prefix"></a>
+</h3>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/kpiwidget.html">kpiwidget</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">df_shared</span>,</span>
+<span>  column <span class="op">=</span> <span class="st">"mpg"</span>,</span>
+<span>  kpi <span class="op">=</span> <span class="st">"mean"</span>,</span>
+<span>  prefix <span class="op">=</span> <span class="st">"mean mpg: "</span>,</span>
+<span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div id="htmlwidget-1834a22cd196f3aa03a1" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1834a22cd196f3aa03a1">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"mean","comparison":null,"decimals":1,"big_mark":" ","prefix":"mean mpg: ","suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div class="section level3">
+<h3 id="suffix">Suffix<a class="anchor" aria-label="anchor" href="#suffix"></a>
+</h3>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/kpiwidget.html">kpiwidget</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">df_shared</span>,</span>
+<span>  column <span class="op">=</span> <span class="st">"mpg"</span>,</span>
+<span>  kpi <span class="op">=</span> <span class="st">"count"</span>,</span>
+<span>  comparison <span class="op">=</span> <span class="st">"share"</span>,</span>
+<span>  group1 <span class="op">=</span> <span class="op">~</span><span class="va">cyl</span> <span class="op">==</span> <span class="fl">4</span>,</span>
+<span>  suffix <span class="op">=</span> <span class="st">" %"</span>,</span>
+<span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<div id="htmlwidget-28515d92cb327f90c9eb" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
+<script type="application/json" data-for="htmlwidget-28515d92cb327f90c9eb">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":[false,false,true,false,false,false,false,true,true,false,false,false,false,false,false,false,false,true,true,true,true,false,false,false,false,true,true,true,false,false,false,true],"group2_filter":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],"settings":{"kpi":"count","comparison":"share","decimals":1,"big_mark":" ","prefix":null,"suffix":" %","crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="section level2">
+<h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
+</h2>
+<p>The <code>kpiwidget</code> package provides a flexible way to display
+KPIs in interactive dashboards. Using <code>crosstalk</code>, it enables
+real-time filtering and comparison of data.</p>
 </div>
   </div>
 
