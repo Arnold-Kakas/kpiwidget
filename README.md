@@ -31,6 +31,12 @@ install.packages("devtools")
 devtools::install_github("Arnold-Kakas/kpiwidget")
 ```
 
+You can alsoget the official release of **kpiwidget** from CRAN:
+
+``` r
+install.packages("kpiwidget")
+```
+
 ## Usage
 
 Before using `kpiwidget`, ensure your data is wrapped in a `crosstalk::SharedData()` object:
