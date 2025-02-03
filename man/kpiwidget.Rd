@@ -75,18 +75,22 @@ and \code{group2}.
 }
 \examples{
 \dontrun{
-  # Standard KPI example:
-  kpiwidget(mtcars_shared, kpi = "mean", column = "mpg", decimals = 1, suffix = " mpg")
+# Standard KPI example:
+kpiwidget(mtcars_shared, kpi = "mean", column = "mpg", decimals = 1, suffix = " mpg")
 
-  # Comparison (ratio) example: ratio of sales between two regions.
-  kpiWidget(sales_shared, kpi = "sum", comparison = "ratio", column = "sales",
-            group1 = ~ region == "North")
+# Comparison (ratio) example: ratio of sales between two regions.
+kpiWidget(sales_shared,
+  kpi = "sum", comparison = "ratio", column = "sales",
+  group1 = ~ region == "North"
+)
 
-  # Comparison (share) example: share of new customer sales relative to all sales.
-  kpiWidget(customer_shared, kpi = "sum", comparison = "share", column = "sales",
-            selection = ~ country == "USA",
-            group1 = ~ new_customer == TRUE,
-            suffix = " \%")
+# Comparison (share) example: share of new customer sales relative to all sales.
+kpiWidget(customer_shared,
+  kpi = "sum", comparison = "share", column = "sales",
+  selection = ~ country == "USA",
+  group1 = ~ new_customer == TRUE,
+  suffix = " \%"
+)
 }
 
 }
