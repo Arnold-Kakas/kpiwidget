@@ -261,7 +261,7 @@ kpiwidget(
   data = df_shared,
   column = "disp",
   kpi = "sum",
-  big_mark = ".",
+  big_mark = " ,",
   height = "25px"
 )
 ```

@@ -48,28 +48,36 @@ HTMLWidgets.widget({
       }
     }
 
+    // --- Thousand Separator Function ---
+    // This function inserts the grouping symbol (bigMark) into the integer part of the number.
+    function numberWithSep(x, bigMark) {
+      if (typeof x !== "string") {
+        x = x.toString();
+      }
+      var parts = x.split(".");
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, bigMark);
+      return parts.join(".");
+    }
+
     // --- Number Formatting ---
     function formatNumber(value, options) {
       if (typeof value !== "number" || isNaN(value)) return "";
       var prefix = options.prefix || "";
       var suffix = options.suffix || "";
-      var big_mark = options.big_mark || " ";
-      var formatter = new Intl.NumberFormat(undefined, {
-        minimumFractionDigits: options.decimals !== undefined ? options.decimals : 0,
-        maximumFractionDigits: options.decimals !== undefined ? options.decimals : 2,
-        useGrouping: big_mark === " "
-      });
-      var formatted = formatter.format(value);
-      if (big_mark !== "," && big_mark !== "") {
-        formatted = formatted.replace(/,/g, big_mark);
-      }
+      var bigMark = options.big_mark || " ";
+      var decimals = options.decimals !== undefined ? options.decimals : 0;
+
+      // Round the number to fixed decimals.
+      var fixedValue = parseFloat(value).toFixed(decimals);
+      // Apply thousand separator.
+      var formatted = numberWithSep(fixedValue, bigMark);
       return prefix + formatted + suffix;
     }
 
     // --- Main Update Function ---
-    // If no comparison is specified, we simply apply the KPI function to the full data.
-    // If comparison is active, we filter the data according to the provided boolean arrays,
-    // compute an aggregate for each group, and then compute either a ratio or a share.
+    // In standard mode, apply the KPI function to the full data.
+    // In comparison mode, filter the data using the boolean arrays,
+    // compute aggregates for each group, then compute either a ratio or a share.
     function updateDisplay(data, group1_filter, group2_filter, settings) {
       var kpiFunc = getKpiFunction(settings.kpi);
       var result;
@@ -78,7 +86,7 @@ HTMLWidgets.widget({
         // Standard mode: compute KPI over all data.
         result = kpiFunc(data);
       } else {
-        // Comparison mode: separate the data into two groups.
+        // Comparison mode: split data into two groups.
         var group1Data = [];
         var group2Data = [];
         for (var i = 0; i < data.length; i++) {
@@ -111,10 +119,18 @@ HTMLWidgets.widget({
       renderValue: function(x) {
         // Ensure data is in array form.
         if (typeof x.data === "string") {
-          x.data = JSON.parse(x.data);
+          try {
+            x.data = JSON.parse(x.data);
+          } catch(err) {
+            console.error("Error parsing x.data:", err);
+          }
         }
         if (typeof x.key === "string") {
-          x.key = JSON.parse(x.key);
+          try {
+            x.key = JSON.parse(x.key);
+          } catch(err) {
+            console.error("Error parsing x.key:", err);
+          }
         }
 
         // Save full data and settings.
@@ -128,8 +144,10 @@ HTMLWidgets.widget({
         // WORKAROUND: In comparison mode, if no data was provided, default to counts.
         if (x.settings.comparison && (!x.data || x.data.length === 0)) {
           console.warn("No data provided for comparison mode; defaulting to counts.");
-          x.data = new Array(fullGroup1.length).fill(1);
-          fullData = x.data;
+          if (fullGroup1 && fullGroup1.length) {
+            x.data = new Array(fullGroup1.length).fill(1);
+            fullData = x.data;
+          }
         }
 
         // Initial display update.
