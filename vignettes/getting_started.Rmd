@@ -193,7 +193,7 @@ kpiwidget(
   kpi = "mean",
   comparison = "ratio",
   group1 = ~cyl == 4,
-  group1 = ~cyl == 6,
+  group2 = ~cyl == 6,
   height = "25px"
 )
 ```
@@ -222,7 +222,7 @@ kpiwidget(
   kpi = "count",
   comparison = "share",
   group1 = ~cyl == 4,
-  group1 = ~cyl %in% c(4,6),
+  group2 = ~cyl %in% c(4,6),
   height = "25px"
 )
 ```
