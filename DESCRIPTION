@@ -1,6 +1,6 @@
 Package: kpiwidget
 Title: KPI Widgets for Quarto Dashboards with Crosstalk
-Version: 0.0.1
+Version: 0.1.0
 Authors@R: 
     person("Arnold", "Kakas", , "kakasarnold@gmail.com", role = c("aut", "cre", "cph"))
 Description: Provides an easy way to create interactive KPI widgets for Quarto dashboards using Crosstalk. 
