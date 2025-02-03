@@ -62,7 +62,7 @@ For \code{comparison = "share"}, if not provided, it defaults to all rows.}
 \item{group}{Crosstalk group name. Typically provided by the SharedData object.}
 }
 \value{
-An object of class \code{htmlwidget} that will intelligently print itself into an HTML page.
+An object of class \code{htmlwidget} that will print itself into an HTML page.
 }
 \description{
 This function computes and displays a key performance indicator (KPI) based on a
@@ -80,14 +80,12 @@ and \code{group2}.
 
   # Comparison (ratio) example: ratio of sales between two regions.
   kpiWidget(sales_shared, kpi = "sum", comparison = "ratio", column = "sales",
-            group1 = ~ region == "North"
-            # group2 is optional; defaults to complement of group1)
+            group1 = ~ region == "North")
 
   # Comparison (share) example: share of new customer sales relative to all sales.
   kpiWidget(customer_shared, kpi = "sum", comparison = "share", column = "sales",
             selection = ~ country == "USA",
             group1 = ~ new_customer == TRUE,
-            # group2 is optional; defaults to all rows:
             suffix = " \%")
 }
 
