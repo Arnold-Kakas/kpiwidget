@@ -162,26 +162,28 @@ HTMLWidgets.widget({
           ct_filter.setGroup(x.settings.crosstalk_group);
         }
         ct_filter.on("change", function(e) {
-          if (e.value && e.value.length > 0) {
-            // e.value is expected to be an array of keys (assumed to be 1-indexed).
-            var filteredIndices = e.value.map(function(k) { return parseInt(k, 10) - 1; });
-            var filteredData = [];
-            var filteredGroup1 = x.settings.comparison ? [] : null;
-            var filteredGroup2 = x.settings.comparison ? [] : null;
-            for (var i = 0; i < filteredIndices.length; i++) {
-              var idx = filteredIndices[i];
-              filteredData.push(fullData[idx]);
-              if (x.settings.comparison) {
-                filteredGroup1.push(fullGroup1[idx]);
-                filteredGroup2.push(fullGroup2[idx]);
-              }
-            }
-            updateDisplay(filteredData, filteredGroup1, filteredGroup2, x.settings);
-          } else {
-            // No active filter: revert to full data.
-            updateDisplay(fullData, fullGroup1, fullGroup2, x.settings);
-          }
-        });
+  if (e.value && e.value.length > 0) {
+    var filteredKeys = new Set(e.value.map(String)); // Convert to Set for quick lookup
+
+    var filteredData = [];
+    var filteredGroup1 = x.settings.comparison ? [] : null;
+    var filteredGroup2 = x.settings.comparison ? [] : null;
+
+    for (var i = 0; i < fullData.length; i++) {
+      if (filteredKeys.has(String(fullKey[i]))) {  // Ensure filtering by key, not index
+        filteredData.push(fullData[i]);
+        if (x.settings.comparison) {
+          filteredGroup1.push(fullGroup1[i]);
+          filteredGroup2.push(fullGroup2[i]);
+        }
+      }
+    }
+
+    updateDisplay(filteredData, filteredGroup1, filteredGroup2, x.settings);
+  } else {
+    updateDisplay(fullData, fullGroup1, fullGroup2, x.settings);
+  }
+});
       },
 
       resize: function(width, height) {
