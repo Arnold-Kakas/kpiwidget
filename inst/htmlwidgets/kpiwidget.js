@@ -49,6 +49,7 @@ HTMLWidgets.widget({
     }
 
     // --- Thousand Separator Function ---
+    // This function inserts the grouping symbol (bigMark) into the integer part of the number.
     function numberWithSep(x, bigMark) {
       if (typeof x !== "string") {
         x = x.toString();
@@ -74,16 +75,18 @@ HTMLWidgets.widget({
     }
 
     // --- Main Update Function ---
-    // In standard mode, we apply the KPI function to the full data.
-    // In comparison mode, we filter the data using the boolean arrays,
+    // In standard mode, apply the KPI function to the full data.
+    // In comparison mode, filter the data using the boolean arrays,
     // compute aggregates for each group, then compute either a ratio or a share.
     function updateDisplay(data, group1_filter, group2_filter, settings) {
       var kpiFunc = getKpiFunction(settings.kpi);
       var result;
 
       if (!settings.comparison) {
+        // Standard mode: compute KPI over all data.
         result = kpiFunc(data);
       } else {
+        // Comparison mode: split data into two groups.
         var group1Data = [];
         var group2Data = [];
         for (var i = 0; i < data.length; i++) {
@@ -158,10 +161,9 @@ HTMLWidgets.widget({
         if (x.settings.crosstalk_group) {
           ct_filter.setGroup(x.settings.crosstalk_group);
         }
-        ct_filter.on("change.kpiwidget", function(e) {
+        ct_filter.on("change", function(e) {
           if (e.value && e.value.length > 0) {
-            // Assuming the keys are one-indexed in the SharedData,
-            // subtract 1 so that we correctly index the JavaScript array.
+            // e.value is expected to be an array of keys (assumed to be 1-indexed).
             var filteredIndices = e.value.map(function(k) { return parseInt(k, 10) - 1; });
             var filteredData = [];
             var filteredGroup1 = x.settings.comparison ? [] : null;
@@ -176,6 +178,7 @@ HTMLWidgets.widget({
             }
             updateDisplay(filteredData, filteredGroup1, filteredGroup2, x.settings);
           } else {
+            // No active filter: revert to full data.
             updateDisplay(fullData, fullGroup1, fullGroup2, x.settings);
           }
         });
