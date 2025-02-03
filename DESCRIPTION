@@ -18,6 +18,8 @@ Suggests:
     flexdashboard,
     htmltools,
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
 URL: https://arnold-kakas.github.io/kpiwidget/
+Config/testthat/edition: 3

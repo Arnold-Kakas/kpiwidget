@@ -1,7 +1,7 @@
 #' Create an interactive KPI widget for Quarto dashboards with Crosstalk support.
 #'
 #' This function computes and displays a key performance indicator (KPI) based on a
-#' variety of statistics. The data can be filtered using logical vectors or formulas.
+#' variety of statistics. The data can be filtered using formulas.
 #' In addition, a comparison mode can be applied by specifying the \code{comparison}
 #' parameter as either \code{"ratio"} or \code{"share"}. For example, if
 #' \code{comparison = "ratio"} and \code{kpi = "sum"} (with a column indicating sales),
@@ -11,7 +11,7 @@
 #' @param data A \code{crosstalk::SharedData} object.
 #' @param kpi A character string specifying the metric to compute.
 #'   Options are: \code{"sum"}, \code{"mean"}, \code{"min"}, \code{"max"},
-#'   \code{"count"}, \code{"distinctCount"}, \code{"duplicates"}. The default is the first element.
+#'   \code{"count"}, \code{"distinctCount"}, \code{"duplicates"}. The default is count.
 #' @param comparison Optional. A character string indicating a comparison mode.
 #'   Options are \code{"ratio"} or \code{"share"}. If not provided (NULL), no comparison is performed.
 #' @param column A column name (as a string) to be used for numeric aggregation.
@@ -37,21 +37,19 @@
 #' @examples
 #' \dontrun{
 #'   # Standard KPI example:
-#'   kpiwidget(mtcars_shared, kpi = "mean", column = "mpg", decimals = 1,
-#'             prefix = "", suffix = " mpg")
+#'   kpiwidget(mtcars_shared, kpi = "mean", column = "mpg", decimals = 1, suffix = " mpg")
 #'
 #'   # Comparison (ratio) example: ratio of sales between two regions.
 #'   kpiWidget(sales_shared, kpi = "sum", comparison = "ratio", column = "sales",
-#'             group1 = ~ region == "North",
-#'             # group2 is optional; defaults to complement of group1:
-#'             prefix = "$")
+#'             group1 = ~ region == "North"
+#'             # group2 is optional; defaults to complement of group1)
 #'
 #'   # Comparison (share) example: share of new customer sales relative to all sales.
 #'   kpiWidget(customer_shared, kpi = "sum", comparison = "share", column = "sales",
 #'             selection = ~ country == "USA",
 #'             group1 = ~ new_customer == TRUE,
 #'             # group2 is optional; defaults to all rows:
-#'             prefix = "", suffix = " %")
+#'             suffix = " %")
 #' }
 #'
 #' @export
