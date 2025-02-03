@@ -14,115 +14,285 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-library(flexdashboard)
-library(kpiwidget)
-```
+## Introduction
+
+The `kpiwidget` package provides an easy way to create KPI (Key Performance Indicator) widgets for dashboards using `crosstalk` shared data. This vignette demonstrates different options and functionalities available in `kpiwidget`.
+
+## Installation
+
+Before using `kpiwidget`, ensure that it is installed along with `crosstalk`:
 
 ```{r}
+#install.packages("crosstalk")
+# Install kpiwidget from CRAN or GitHub
+# install.packages("kpiwidget")
+# devtools::install_github("your_github/kpiwidget")
+```
+
+## Loading Required Libraries
+
+```{r setup}
+library(kpiwidget)
 library(crosstalk)
 library(dplyr)
 library(htmltools)
-
-# Example data
-df <- mtcars %>% 
-  mutate(model = rownames(.))
-
-# Wrap in SharedData with row numbers as keys
-sd <- SharedData$new(df, key = ~1:nrow(df), group = "mtcars_group")
 ```
 
+## Creating a Shared Data Object
+
+To enable interactivity, we first wrap our dataset in `SharedData` from `crosstalk`. This allows filtering across multiple widgets using the same dataset.
 
 ```{r}
-filter_checkbox("gear", "Gear", sd, ~gear, inline = TRUE)
+# Create a shared data object with row numbers as keys
+df_shared <- SharedData$new(mtcars, key = ~1:nrow(mtcars), group = "mtcars_group")
 ```
 
+## Adding Filters
 
-Column parameter must be provided. Default kpi is `count` (lenght of dataset).
+`crosstalk` allows dynamic filtering of data. Here, we add a filter to select vehicles based on the number of gears:
+
+```{r}
+filter_checkbox("gear", "Gear", df_shared, ~gear, inline = TRUE)
+```
+
+## Using `kpiwidget`
+
+The `kpiwidget` function provides a simple way to display key performance indicators. The `column` parameter is required, and by default, it calculates the count (number of rows in the dataset).
+
 ```{r}
 kpiwidget(
-  data = sd,
+  data = df_shared,
   column = "mpg",
-  height = "25px")
+  height = "25px"
+)
 ```
 
+### Parameters
 
-## KPI options
+*   data - A crosstalk::SharedData object.
+*   kpi - A character string specifying the metric to compute. Options: count, distinctCount, duplicates, sum, mean, min, max. Default is count.
+*   comparison - A character string indicating a comparison mode. Options are ratio or share. Default is NULL.
+*   column - A column name (as a string) to be used for numeric aggregation. Default is NULL, this parameter is REQUIRED.
+*   selection - A one-sided formula. Serves as a global filter. Default is NULL.
+*   group1 - For comparison mode: a one-sided formula defining group 1. This is required in comparison mode. Default is NULL.
+*   group2 - For comparison mode: a one-sided formula defining group 2. For comparison = "ratio", if not provided, it defaults to the complement of group1. For comparison = "share", if not provided, it defaults to all rows. Default is NULL.
+*   decimals - Number of decimals to round the computed result. Default is 1.
+*   big_mark - Character to be used as the thousands separator. Default is " ".
+*   prefix - A string to be prepended to the displayed value. Default is NULL.
+*   suffix - A string to be appended to the displayed value. Default is NULL.
+*   width - Widget width (passed to htmlwidgets::createWidget). Default is NULL.
+*   height - Widget height (passed to htmlwidgets::createWidget). Default is NULL.
+*   elementId - Optional element ID for the widget. Default is NULL.
+*   group - Crosstalk group name. Typically provided by the SharedData object. Default is NULL.
 
-### sum
+## KPI Options
+
+The `kpi` parameter allows different types of calculations. Below, we demonstrate various options available in `kpiwidget`.
+
+### Sum
+
+Calculates the sum of the selected column.
+
 ```{r}
 kpiwidget(
-  data = sd,
+  data = df_shared,
   column = "mpg",
   kpi = "sum",
-  height = "25px")
+  height = "25px"
+)
 ```
 
-### mean
+### Mean
+
+Computes the average (mean) of the selected column.
+
 ```{r}
 kpiwidget(
-  data = sd,
+  data = df_shared,
   column = "mpg",
   kpi = "mean",
-  height = "25px")
+  height = "25px"
+)
 ```
 
-### min
+### Minimum
+
+Finds the minimum value in the selected column.
+
 ```{r}
 kpiwidget(
-  data = sd,
+  data = df_shared,
   column = "mpg",
   kpi = "min",
-  height = "25px")
+  height = "25px"
+)
 ```
 
-### max
+### Maximum
+
+Finds the maximum value in the selected column.
+
 ```{r}
 kpiwidget(
-  data = sd,
+  data = df_shared,
   column = "mpg",
   kpi = "max",
-  height = "25px")
+  height = "25px"
+)
 ```
 
-### count
+### Count
+
+Counts the number of rows in the dataset.
+
 ```{r}
 kpiwidget(
-  data = sd,
+  data = df_shared,
   column = "mpg",
   kpi = "count",
-  height = "25px")
+  height = "25px"
+)
 ```
 
-### distinctCount
+### Distinct Count
+
+Counts the number of unique values in the selected column.
+
 ```{r}
 kpiwidget(
-  data = sd,
+  data = df_shared,
   column = "cyl",
   kpi = "distinctCount",
-  height = "25px")
+  height = "25px"
+)
 ```
 
-### ratio
+## Comparison Options
+
+### Ratio
+
+Calculates the ratio of a subset defined with `group1` parameter (e.g., cars with 4 cylinders) compared to the complement of group1 filter (default setting for "ratio") or to the subset defined with `group2` parameter.
+
+default:
 ```{r}
 kpiwidget(
-  data = sd,
+  data = df_shared,
   column = "mpg",
-  kpi = "sum",
+  kpi = "mean",
   comparison = "ratio",
   group1 = ~cyl == 4,
-  height = "25px")
+  height = "25px"
+)
 ```
 
-### share
+group2:
 ```{r}
 kpiwidget(
-  data = sd,
+  data = df_shared,
   column = "mpg",
-  kpi = "sum",
-  comparison = "share",
+  kpi = "mean",
+  comparison = "ratio",
   group1 = ~cyl == 4,
-  group2 = ~cyl == 6,
-  height = "25px")
+  group1 = ~cyl == 6,
+  height = "25px"
+)
 ```
 
+### Share
+
+Computes the share between two groups (e.g., cars with 4 cylinders and full dataset or subset defined with `group2` pamarater).
+
+default:
+```{r}
+kpiwidget(
+  data = df_shared,
+  column = "mpg",
+  kpi = "count",
+  comparison = "share",
+  group1 = ~cyl == 4,
+  height = "25px"
+)
+```
+
+group2:
+```{r}
+kpiwidget(
+  data = df_shared,
+  column = "mpg",
+  kpi = "count",
+  comparison = "share",
+  group1 = ~cyl == 4,
+  group1 = ~cyl %in% c(4,6),
+  height = "25px"
+)
+```
+
+using selection:
+```{r}
+kpiwidget(
+  data = df_shared,
+  column = "mpg",
+  kpi = "count",
+  selection = ~cyl %in% c(4,6),
+  comparison = "share",
+  group1 = ~cyl == 4,
+  height = "25px"
+)
+```
+
+## Formatting Options
+
+### Decimals
+
+```{r}
+kpiwidget(
+  data = df_shared,
+  column = "mpg",
+  kpi = "mean",
+  decimals = 3,
+  height = "25px"
+)
+```
+
+### Big Mark
+
+```{r}
+kpiwidget(
+  data = df_shared,
+  column = "disp",
+  kpi = "sum",
+  big_mark = ".",
+  height = "25px"
+)
+```
+
+### Prefix
+
+```{r}
+kpiwidget(
+  data = df_shared,
+  column = "mpg",
+  kpi = "mean",
+  prefix = "mean mpg: ",
+  height = "25px"
+)
+```
+
+### Suffix
+
+```{r}
+kpiwidget(
+  data = df_shared,
+  column = "mpg",
+  kpi = "count",
+  comparison = "share",
+  group1 = ~cyl == 4,
+  suffix = " %",
+  height = "25px"
+)
+```
+
+
+## Conclusion
+
+The `kpiwidget` package provides a flexible way to display KPIs in interactive dashboards. Using `crosstalk`, it enables real-time filtering and comparison of data.
