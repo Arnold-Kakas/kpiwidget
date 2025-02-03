@@ -1,7 +1,9 @@
 test_that("Standard mode returns an htmlwidget with correct data", {
   sd <- crosstalk::SharedData$new(mtcars)
-  res <- kpiwidget(sd, kpi = "mean", column = "mpg", decimals = 1,
-                      prefix = "", suffix = " mpg")
+  res <- kpiwidget(sd,
+    kpi = "mean", column = "mpg", decimals = 1,
+    prefix = "", suffix = " mpg"
+  )
 
   # Check that the returned object is an htmlwidget
   expect_s3_class(res, "htmlwidget")
@@ -16,8 +18,10 @@ test_that("Standard mode returns an htmlwidget with correct data", {
 
 test_that("Comparison mode (share) returns an htmlwidget with proper filters", {
   sd <- crosstalk::SharedData$new(mtcars)
-  res <- kpiwidget(sd, kpi = "sum", comparison = "share", column = "mpg",
-                      group1 = ~ cyl == 4)
+  res <- kpiwidget(sd,
+    kpi = "sum", comparison = "share", column = "mpg",
+    group1 = ~ cyl == 4
+  )
 
   expect_s3_class(res, "htmlwidget")
   expect_equal(res$x$settings$comparison, "share")
@@ -33,8 +37,10 @@ test_that("Comparison mode (share) returns an htmlwidget with proper filters", {
 
 test_that("Comparison mode (ratio) returns an htmlwidget with proper filters", {
   sd <- crosstalk::SharedData$new(mtcars)
-  res <- kpiwidget(sd, kpi = "sum", comparison = "ratio", column = "mpg",
-                      group1 = ~ cyl == 4)
+  res <- kpiwidget(sd,
+    kpi = "sum", comparison = "ratio", column = "mpg",
+    group1 = ~ cyl == 4
+  )
 
   expect_s3_class(res, "htmlwidget")
   expect_equal(res$x$settings$comparison, "ratio")
@@ -52,8 +58,10 @@ test_that("Comparison mode (ratio) returns an htmlwidget with proper filters", {
 
 test_that("Non-SharedData input returns NULL with warning", {
   expect_warning(
-    res <- kpiwidget(mtcars, kpi = "mean", column = "mpg", decimals = 1,
-                     prefix = "", suffix = " mpg"),
+    res <- kpiwidget(mtcars,
+      kpi = "mean", column = "mpg", decimals = 1,
+      prefix = "", suffix = " mpg"
+    ),
     "kpiWidget can be used only with a Crosstalk SharedData object!"
   )
   expect_null(res)
@@ -62,8 +70,10 @@ test_that("Non-SharedData input returns NULL with warning", {
 test_that("Nonexistent column returns NULL with warning", {
   sd <- crosstalk::SharedData$new(mtcars)
   expect_warning(
-    res <- kpiwidget(sd, kpi = "mean", column = "nonexistent", decimals = 1,
-                     prefix = "", suffix = " mpg"),
+    res <- kpiwidget(sd,
+      kpi = "mean", column = "nonexistent", decimals = 1,
+      prefix = "", suffix = " mpg"
+    ),
     "No 'nonexistent' column in data."
   )
   expect_null(res)
@@ -73,8 +83,10 @@ test_that("Nonexistent column returns NULL with warning", {
 test_that("Nonexistent column returns NULL with warning in comparison mode", {
   sd <- crosstalk::SharedData$new(mtcars)
   expect_warning(
-    res <- kpiwidget(sd, kpi = "mean", column = "nonexistent", decimals = 1,
-                     comparison = "share", group1 = ~ cyl == 4),
+    res <- kpiwidget(sd,
+      kpi = "mean", column = "nonexistent", decimals = 1,
+      comparison = "share", group1 = ~ cyl == 4
+    ),
     "No 'nonexistent' column in data."
   )
   expect_null(res)
@@ -91,8 +103,10 @@ test_that("Missing group1 in comparison mode returns NULL with warning", {
 
 test_that("Selection filter works correctly", {
   sd <- crosstalk::SharedData$new(mtcars)
-  res <- kpiwidget(sd, kpi = "mean", column = "mpg",
-                      selection = ~ mpg > 20, decimals = 1)
+  res <- kpiwidget(sd,
+    kpi = "mean", column = "mpg",
+    selection = ~ mpg > 20, decimals = 1
+  )
 
   expect_s3_class(res, "htmlwidget")
 
@@ -122,8 +136,10 @@ test_that("Selection must be one-sided formula", {
 test_that("group1 wrong format", {
   sd <- crosstalk::SharedData$new(mtcars)
   expect_warning(
-    res <- kpiwidget(sd, kpi = "sum", column = "mpg", comparison = "ratio",
-                     group1 = "~ cyl > 4"),
+    res <- kpiwidget(sd,
+      kpi = "sum", column = "mpg", comparison = "ratio",
+      group1 = "~ cyl > 4"
+    ),
     "group1 must be a one-sided formula. Remove single/double quotes if you used them."
   )
   expect_null(res)
@@ -132,8 +148,10 @@ test_that("group1 wrong format", {
 test_that("group1 must be one-sided formula", {
   sd <- crosstalk::SharedData$new(mtcars)
   expect_warning(
-    res <- kpiwidget(sd, kpi = "sum", column = "mpg", comparison = "ratio",
-                     group1 = cyl ~ cyl > 4),
+    res <- kpiwidget(sd,
+      kpi = "sum", column = "mpg", comparison = "ratio",
+      group1 = cyl ~ cyl > 4
+    ),
     "Unexpected two-sided formula in group2: cyl ~ cyl > 4"
   )
   expect_null(res)
@@ -142,8 +160,10 @@ test_that("group1 must be one-sided formula", {
 test_that("group2 wrong format", {
   sd <- crosstalk::SharedData$new(mtcars)
   expect_warning(
-    res <- kpiwidget(sd, kpi = "sum", column = "mpg", comparison = "ratio",
-                     group1 = ~ cyl > 4, group2 = "~ cyl == 4"),
+    res <- kpiwidget(sd,
+      kpi = "sum", column = "mpg", comparison = "ratio",
+      group1 = ~ cyl > 4, group2 = "~ cyl == 4"
+    ),
     "group2 must be a one-sided formula or remain blank. Remove single/double quotes if you used them."
   )
   expect_null(res)
@@ -152,8 +172,10 @@ test_that("group2 wrong format", {
 test_that("group2 must be one-sided formula", {
   sd <- crosstalk::SharedData$new(mtcars)
   expect_warning(
-    res <- kpiwidget(sd, kpi = "sum", column = "mpg", comparison = "ratio",
-                     group1 = ~ cyl > 4, group2 = cyl ~ cyl == 4),
+    res <- kpiwidget(sd,
+      kpi = "sum", column = "mpg", comparison = "ratio",
+      group1 = ~ cyl > 4, group2 = cyl ~ cyl == 4
+    ),
     "Unexpected two-sided formula in group2: cyl ~ cyl == 4"
   )
   expect_null(res)
@@ -163,8 +185,10 @@ test_that("group2 must be one-sided formula", {
 test_that("Comparison mode (ratio), group2 is one-sided formula, returns an htmlwidget with proper filters", {
   sd <- crosstalk::SharedData$new(mtcars)
 
-  res <- kpiwidget(sd, kpi = "sum", column = "mpg", comparison = "ratio",
-                     group1 = ~ cyl > 4, group2 = ~ cyl == 4)
+  res <- kpiwidget(sd,
+    kpi = "sum", column = "mpg", comparison = "ratio",
+    group1 = ~ cyl > 4, group2 = ~ cyl == 4
+  )
 
   expect_s3_class(res, "htmlwidget")
   expect_equal(res$x$settings$comparison, "ratio")
@@ -181,8 +205,10 @@ test_that("Comparison mode (ratio), group2 is one-sided formula, returns an html
 test_that("Comparison mode (ratio) without specified column will return count by default (each row has value == 1). No error is thrown", {
   sd <- crosstalk::SharedData$new(mtcars)
 
-  res <- kpiwidget(sd, kpi = "sum", comparison = "ratio",
-                   group1 = ~ cyl > 4, group2 = ~ cyl == 4)
+  res <- kpiwidget(sd,
+    kpi = "sum", comparison = "ratio",
+    group1 = ~ cyl > 4, group2 = ~ cyl == 4
+  )
 
   expect_s3_class(res, "htmlwidget")
   expect_equal(res$x$settings$comparison, "ratio")

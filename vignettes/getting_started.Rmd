@@ -23,7 +23,7 @@ The `kpiwidget` package provides an easy way to create KPI (Key Performance Indi
 Before using `kpiwidget`, ensure that it is installed along with `crosstalk`:
 
 ```{r}
-#install.packages("crosstalk")
+# install.packages("crosstalk")
 # Install kpiwidget from CRAN or GitHub
 # install.packages("kpiwidget")
 # devtools::install_github("your_github/kpiwidget")
@@ -44,7 +44,7 @@ To enable interactivity, we first wrap our dataset in `SharedData` from `crossta
 
 ```{r}
 # Create a shared data object with row numbers as keys
-df_shared <- SharedData$new(mtcars, key = ~1:nrow(mtcars), group = "mtcars_group")
+df_shared <- SharedData$new(mtcars, key = ~ 1:nrow(mtcars), group = "mtcars_group")
 ```
 
 ## Adding Filters
@@ -180,7 +180,7 @@ kpiwidget(
   column = "mpg",
   kpi = "mean",
   comparison = "ratio",
-  group1 = ~cyl == 4,
+  group1 = ~ cyl == 4,
   height = "25px"
 )
 ```
@@ -192,8 +192,8 @@ kpiwidget(
   column = "mpg",
   kpi = "mean",
   comparison = "ratio",
-  group1 = ~cyl == 4,
-  group2 = ~cyl == 6,
+  group1 = ~ cyl == 4,
+  group2 = ~ cyl == 6,
   height = "25px"
 )
 ```
@@ -209,7 +209,7 @@ kpiwidget(
   column = "mpg",
   kpi = "count",
   comparison = "share",
-  group1 = ~cyl == 4,
+  group1 = ~ cyl == 4,
   height = "25px"
 )
 ```
@@ -221,8 +221,8 @@ kpiwidget(
   column = "mpg",
   kpi = "count",
   comparison = "share",
-  group1 = ~cyl == 4,
-  group2 = ~cyl %in% c(4,6),
+  group1 = ~ cyl == 4,
+  group2 = ~ cyl %in% c(4, 6),
   height = "25px"
 )
 ```
@@ -233,9 +233,9 @@ kpiwidget(
   data = df_shared,
   column = "mpg",
   kpi = "count",
-  selection = ~cyl %in% c(4,6),
+  selection = ~ cyl %in% c(4, 6),
   comparison = "share",
-  group1 = ~cyl == 4,
+  group1 = ~ cyl == 4,
   height = "25px"
 )
 ```
@@ -286,7 +286,7 @@ kpiwidget(
   column = "mpg",
   kpi = "count",
   comparison = "share",
-  group1 = ~cyl == 4,
+  group1 = ~ cyl == 4,
   suffix = " %",
   height = "25px"
 )
