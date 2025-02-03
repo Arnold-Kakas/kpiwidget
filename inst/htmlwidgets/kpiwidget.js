@@ -75,9 +75,6 @@ HTMLWidgets.widget({
     }
 
     // --- Main Update Function ---
-    // In standard mode, apply the KPI function to the full data.
-    // In comparison mode, filter the data using the boolean arrays,
-    // compute aggregates for each group, then compute either a ratio or a share.
     function updateDisplay(data, group1_filter, group2_filter, settings) {
       var kpiFunc = getKpiFunction(settings.kpi);
       var result;
@@ -163,17 +160,25 @@ HTMLWidgets.widget({
         }
         ct_filter.on("change", function(e) {
           if (e.value && e.value.length > 0) {
-            // e.value is expected to be an array of keys (assumed to be 1-indexed).
-            var filteredIndices = e.value.map(function(k) { return parseInt(k, 10) - 1; });
+            // Instead of parseInt, find the index via x.key.indexOf(k).
+            var filteredIndices = [];
+            e.value.forEach(function(k) {
+              var idx = x.key.indexOf(k);
+              if (idx > -1) {
+                filteredIndices.push(idx);
+              }
+            });
+
+            // Build filtered arrays for data and group filters
             var filteredData = [];
             var filteredGroup1 = x.settings.comparison ? [] : null;
             var filteredGroup2 = x.settings.comparison ? [] : null;
             for (var i = 0; i < filteredIndices.length; i++) {
-              var idx = filteredIndices[i];
-              filteredData.push(fullData[idx]);
+              var realIndex = filteredIndices[i];
+              filteredData.push(fullData[realIndex]);
               if (x.settings.comparison) {
-                filteredGroup1.push(fullGroup1[idx]);
-                filteredGroup2.push(fullGroup2[idx]);
+                filteredGroup1.push(fullGroup1[realIndex]);
+                filteredGroup2.push(fullGroup2[realIndex]);
               }
             }
             updateDisplay(filteredData, filteredGroup1, filteredGroup2, x.settings);
