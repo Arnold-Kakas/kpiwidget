@@ -30,29 +30,20 @@
 #' @param width Widget width (passed to \code{htmlwidgets::createWidget}).
 #' @param height Widget height.
 #' @param elementId Optional element ID for the widget.
-#' @param group Crosstalk group name. Typically provided by the SharedData object.
+#' @param group crosstalk group name. Typically provided by the SharedData object.
 #'
 #' @returns An object of class \code{htmlwidget} that will print itself into an HTML page.
 #'
 #' @examples
-#' \dontrun{
 #' # Standard KPI example:
+#' mtcars_shared <- crosstalk::SharedData$new(mtcars, key = ~ 1:nrow(mtcars), group = "mtcars_group")
 #' kpiwidget(mtcars_shared, kpi = "mean", column = "mpg", decimals = 1, suffix = " mpg")
 #'
-#' # Comparison (ratio) example: ratio of sales between two regions.
-#' kpiWidget(sales_shared,
-#'   kpi = "sum", comparison = "ratio", column = "sales",
-#'   group1 = ~ region == "North"
+#' # Comparison (ratio) example: ratio of mean mpg between two groups.
+#' kpiWidget(mtcars_shared,
+#'   kpi = "mean", comparison = "ratio", column = "mpg",
+#'   group1 = ~ cyl == 4, group2 = ~ cyl == 6
 #' )
-#'
-#' # Comparison (share) example: share of new customer sales relative to all sales.
-#' kpiWidget(customer_shared,
-#'   kpi = "sum", comparison = "share", column = "sales",
-#'   selection = ~ country == "USA",
-#'   group1 = ~ new_customer == TRUE,
-#'   suffix = " %"
-#' )
-#' }
 #'
 #' @export
 kpiwidget <- function(
