@@ -76,12 +76,13 @@ and \code{group2}.
 \examples{
 # Standard KPI example:
 mtcars_shared <- crosstalk::SharedData$new(mtcars, key = ~ 1:nrow(mtcars), group = "mtcars_group")
-kpiwidget(mtcars_shared, kpi = "mean", column = "mpg", decimals = 1, suffix = " mpg")
+kpiwidget(mtcars_shared, kpi = "mean", column = "mpg", decimals = 1, suffix = " mpg", height = "25px
+)
 
 # Comparison (ratio) example: ratio of mean mpg between two groups.
 kpiwidget(mtcars_shared,
   kpi = "mean", comparison = "ratio", column = "mpg",
-  group1 = ~ cyl == 4, group2 = ~ cyl == 6
+  group1 = ~ cyl == 4, group2 = ~ cyl == 6,  height = "25px
 )
 
 }
