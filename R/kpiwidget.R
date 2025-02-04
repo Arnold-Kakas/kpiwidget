@@ -40,7 +40,7 @@
 #' kpiwidget(mtcars_shared, kpi = "mean", column = "mpg", decimals = 1, suffix = " mpg")
 #'
 #' # Comparison (ratio) example: ratio of mean mpg between two groups.
-#' kpiWidget(mtcars_shared,
+#' kpiwidget(mtcars_shared,
 #'   kpi = "mean", comparison = "ratio", column = "mpg",
 #'   group1 = ~ cyl == 4, group2 = ~ cyl == 6
 #' )
