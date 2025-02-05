@@ -2,6 +2,9 @@
 # kpiwidget
 
 <!-- badges: start -->
+[![CRAN
+status](https://www.r-pkg.org/badges/version/kpiwidget)](https://cran.r-project.org/package=kpiwidget)
+[![](https://cranlogs.r-pkg.org/badges/kpiwidget)](https://cran.r-project.org/package=kpiwidget)
 [![R-CMD-check](https://github.com/Arnold-Kakas/kpiwidget/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Arnold-Kakas/kpiwidget/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/Arnold-Kakas/kpiwidget/branch/main/graph/badge.svg)](https://app.codecov.io/gh/Arnold-Kakas/kpiwidget?branch=main)
 <!-- badges: end -->
