@@ -27,8 +27,8 @@
 #' @param big_mark Character to be used as the thousands separator. Default: " ".
 #' @param prefix A string to be prepended to the displayed value.
 #' @param suffix A string to be appended to the displayed value.
-#' @param width Widget width (passed to \code{htmlwidgets::createWidget}).
-#' @param height Widget height.
+#' @param width Widget width (passed to \code{htmlwidgets::createWidget}). Default: "auto".
+#' @param height Widget height (passed to \code{htmlwidgets::createWidget}). Default: "auto".
 #' @param elementId Optional element ID for the widget.
 #' @param group crosstalk group name. Typically provided by the SharedData object.
 #'

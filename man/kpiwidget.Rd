@@ -53,9 +53,9 @@ For \code{comparison = "share"}, if not provided, it defaults to all rows.}
 
 \item{suffix}{A string to be appended to the displayed value.}
 
-\item{width}{Widget width (passed to \code{htmlwidgets::createWidget}).}
+\item{width}{Widget width (passed to \code{htmlwidgets::createWidget}). Default: "auto".}
 
-\item{height}{Widget height.}
+\item{height}{Widget height (passed to \code{htmlwidgets::createWidget}). Default: "auto".}
 
 \item{elementId}{Optional element ID for the widget.}
 
