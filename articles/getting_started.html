@@ -78,7 +78,12 @@
 
 
       </header><link href="getting_started_files/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
-<script src="getting_started_files/crosstalk-1.2.1/js/crosstalk.min.js"></script><script src="getting_started_files/htmlwidgets-1.6.4/htmlwidgets.js"></script><script src="getting_started_files/kpiwidget-binding-0.1.0.9000/kpiwidget.js"></script><div class="row">
+<script src="getting_started_files/crosstalk-1.2.1/js/crosstalk.min.js"></script><script src="getting_started_files/htmlwidgets-1.6.4/htmlwidgets.js"></script><script src="getting_started_files/kpiwidget-binding-0.1.0.9000/kpiwidget.js"></script><script src="getting_started_files/ionrangeslider-javascript-2.3.1/js/ion.rangeSlider.min.js"></script><script src="getting_started_files/strftime-0.9.2/strftime-min.js"></script><link href="getting_started_files/ionrangeslider-css-2.3.1/css/ion.rangeSlider.css" rel="stylesheet">
+<link href="getting_started_files/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="getting_started_files/datatables-binding-0.33/datatables.js"></script><link href="getting_started_files/dt-core-bootstrap-1.13.6/css/dataTables.bootstrap.min.css" rel="stylesheet">
+<link href="getting_started_files/dt-core-bootstrap-1.13.6/css/dataTables.bootstrap.extra.css" rel="stylesheet">
+<script src="getting_started_files/dt-core-bootstrap-1.13.6/js/jquery.dataTables.min.js"></script><script src="getting_started_files/dt-core-bootstrap-1.13.6/js/dataTables.bootstrap.min.js"></script><link href="getting_started_files/dt-ext-scroller-bootstrap-1.13.6/css/scroller.bootstrap.min.css" rel="stylesheet">
+<script src="getting_started_files/dt-ext-scroller-bootstrap-1.13.6/js/dataTables.scroller.min.js"></script><script src="getting_started_files/dt-ext-scroller-bootstrap-1.13.6/js/scroller.bootstrap.min.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Getting started</h1>
@@ -116,6 +121,7 @@ along with <code>crosstalk</code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://arnold-kakas.github.io/kpiwidget/">kpiwidget</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/crosstalk/" class="external-link">crosstalk</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/DT" class="external-link">DT</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
@@ -135,7 +141,7 @@ along with <code>crosstalk</code>:</p>
 filtering across multiple widgets using the same dataset.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a shared data object with row numbers as keys</span></span>
-<span><span class="va">df_shared</span> <span class="op">&lt;-</span> <span class="va"><a href="https://rdrr.io/pkg/crosstalk/man/SharedData.html" class="external-link">SharedData</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">mtcars</span>, key <span class="op">=</span> <span class="op">~</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, group <span class="op">=</span> <span class="st">"mtcars_group"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">df_shared</span> <span class="op">&lt;-</span> <span class="fu">crosstalk</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/crosstalk/man/SharedData.html" class="external-link">SharedData</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">mtcars</span>, key <span class="op">=</span> <span class="op">~</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>, group <span class="op">=</span> <span class="st">"mtcars_group"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="adding-filters">Adding Filters<a class="anchor" aria-label="anchor" href="#adding-filters"></a>
@@ -143,7 +149,7 @@ filtering across multiple widgets using the same dataset.</p>
 <p><code>crosstalk</code> allows dynamic filtering of data. Here, we add
 a filter to select vehicles based on the number of gears:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/crosstalk/man/filter_select.html" class="external-link">filter_checkbox</a></span><span class="op">(</span><span class="st">"gear"</span>, <span class="st">"Gear"</span>, <span class="va">df_shared</span>, <span class="op">~</span><span class="va">gear</span>, inline <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">crosstalk</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/crosstalk/man/filter_select.html" class="external-link">filter_checkbox</a></span><span class="op">(</span><span class="st">"gear"</span>, <span class="st">"Gear"</span>, <span class="va">df_shared</span>, <span class="op">~</span><span class="va">gear</span>, inline <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div id="gear" class="form-group crosstalk-input-checkboxgroup crosstalk-input">
 <label class="control-label" for="gear">Gear</label>
 <div class="crosstalk-options-group">
@@ -180,7 +186,7 @@ dataset).</p>
 <span>  column <span class="op">=</span> <span class="st">"mpg"</span>,</span>
 <span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div id="htmlwidget-ac96cb3ee4656e2e9ec3" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
+<div id="htmlwidget-ac96cb3ee4656e2e9ec3" style="width:auto;height:25px;" class="kpiwidget html-widget"></div>
 <script type="application/json" data-for="htmlwidget-ac96cb3ee4656e2e9ec3">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"count","comparison":null,"decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script><div class="section level3">
 <h3 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a>
 </h3>
@@ -237,7 +243,7 @@ calculations. Below, we demonstrate various options available in
 <span>  kpi <span class="op">=</span> <span class="st">"sum"</span>,</span>
 <span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div id="htmlwidget-e5c8c404fe174e4c81bd" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
+<div id="htmlwidget-e5c8c404fe174e4c81bd" style="width:auto;height:25px;" class="kpiwidget html-widget"></div>
 <script type="application/json" data-for="htmlwidget-e5c8c404fe174e4c81bd">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"sum","comparison":null,"decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="section level3">
@@ -251,7 +257,7 @@ calculations. Below, we demonstrate various options available in
 <span>  kpi <span class="op">=</span> <span class="st">"mean"</span>,</span>
 <span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div id="htmlwidget-36aa3d2a04d42bbc2145" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
+<div id="htmlwidget-36aa3d2a04d42bbc2145" style="width:auto;height:25px;" class="kpiwidget html-widget"></div>
 <script type="application/json" data-for="htmlwidget-36aa3d2a04d42bbc2145">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"mean","comparison":null,"decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="section level3">
@@ -265,7 +271,7 @@ calculations. Below, we demonstrate various options available in
 <span>  kpi <span class="op">=</span> <span class="st">"min"</span>,</span>
 <span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div id="htmlwidget-febe03efa1a2d8d52a86" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
+<div id="htmlwidget-febe03efa1a2d8d52a86" style="width:auto;height:25px;" class="kpiwidget html-widget"></div>
 <script type="application/json" data-for="htmlwidget-febe03efa1a2d8d52a86">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"min","comparison":null,"decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="section level3">
@@ -279,7 +285,7 @@ calculations. Below, we demonstrate various options available in
 <span>  kpi <span class="op">=</span> <span class="st">"max"</span>,</span>
 <span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div id="htmlwidget-1fb4450895fe099f74a1" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
+<div id="htmlwidget-1fb4450895fe099f74a1" style="width:auto;height:25px;" class="kpiwidget html-widget"></div>
 <script type="application/json" data-for="htmlwidget-1fb4450895fe099f74a1">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"max","comparison":null,"decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="section level3">
@@ -293,7 +299,7 @@ calculations. Below, we demonstrate various options available in
 <span>  kpi <span class="op">=</span> <span class="st">"count"</span>,</span>
 <span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div id="htmlwidget-10b3b7155e8045a1b2ad" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
+<div id="htmlwidget-10b3b7155e8045a1b2ad" style="width:auto;height:25px;" class="kpiwidget html-widget"></div>
 <script type="application/json" data-for="htmlwidget-10b3b7155e8045a1b2ad">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"count","comparison":null,"decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="section level3">
@@ -307,7 +313,7 @@ calculations. Below, we demonstrate various options available in
 <span>  kpi <span class="op">=</span> <span class="st">"distinctCount"</span>,</span>
 <span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div id="htmlwidget-4018eef1a407a0df6b52" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
+<div id="htmlwidget-4018eef1a407a0df6b52" style="width:auto;height:25px;" class="kpiwidget html-widget"></div>
 <script type="application/json" data-for="htmlwidget-4018eef1a407a0df6b52">{"x":{"data":[6,6,4,6,8,6,8,4,4,6,6,8,8,8,8,8,8,4,4,4,4,8,8,8,8,4,4,4,8,6,8,4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"distinctCount","comparison":null,"decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
@@ -331,7 +337,7 @@ with <code>group2</code> parameter.</p>
 <span>  group1 <span class="op">=</span> <span class="op">~</span> <span class="va">cyl</span> <span class="op">==</span> <span class="fl">4</span>,</span>
 <span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div id="htmlwidget-5b1b2f4ad92281566982" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
+<div id="htmlwidget-5b1b2f4ad92281566982" style="width:auto;height:25px;" class="kpiwidget html-widget"></div>
 <script type="application/json" data-for="htmlwidget-5b1b2f4ad92281566982">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":[false,false,true,false,false,false,false,true,true,false,false,false,false,false,false,false,false,true,true,true,true,false,false,false,false,true,true,true,false,false,false,true],"group2_filter":[true,true,false,true,true,true,true,false,false,true,true,true,true,true,true,true,true,false,false,false,false,true,true,true,true,false,false,false,true,true,true,false],"settings":{"kpi":"mean","comparison":"ratio","decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script><p>group2:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/kpiwidget.html">kpiwidget</a></span><span class="op">(</span></span>
@@ -343,7 +349,7 @@ with <code>group2</code> parameter.</p>
 <span>  group2 <span class="op">=</span> <span class="op">~</span> <span class="va">cyl</span> <span class="op">==</span> <span class="fl">6</span>,</span>
 <span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div id="htmlwidget-25c3e940e6859592f801" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
+<div id="htmlwidget-25c3e940e6859592f801" style="width:auto;height:25px;" class="kpiwidget html-widget"></div>
 <script type="application/json" data-for="htmlwidget-25c3e940e6859592f801">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":[false,false,true,false,false,false,false,true,true,false,false,false,false,false,false,false,false,true,true,true,true,false,false,false,false,true,true,true,false,false,false,true],"group2_filter":[true,true,false,true,false,true,false,false,false,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,false,false],"settings":{"kpi":"mean","comparison":"ratio","decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="section level3">
@@ -362,7 +368,7 @@ pamarater).</p>
 <span>  group1 <span class="op">=</span> <span class="op">~</span> <span class="va">cyl</span> <span class="op">==</span> <span class="fl">4</span>,</span>
 <span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div id="htmlwidget-3f27c09be0c60bb52829" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
+<div id="htmlwidget-3f27c09be0c60bb52829" style="width:auto;height:25px;" class="kpiwidget html-widget"></div>
 <script type="application/json" data-for="htmlwidget-3f27c09be0c60bb52829">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":[false,false,true,false,false,false,false,true,true,false,false,false,false,false,false,false,false,true,true,true,true,false,false,false,false,true,true,true,false,false,false,true],"group2_filter":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],"settings":{"kpi":"count","comparison":"share","decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script><p>group2:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/kpiwidget.html">kpiwidget</a></span><span class="op">(</span></span>
@@ -374,7 +380,7 @@ pamarater).</p>
 <span>  group2 <span class="op">=</span> <span class="op">~</span> <span class="va">cyl</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">6</span><span class="op">)</span>,</span>
 <span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div id="htmlwidget-416566eb193bf50d04e6" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
+<div id="htmlwidget-416566eb193bf50d04e6" style="width:auto;height:25px;" class="kpiwidget html-widget"></div>
 <script type="application/json" data-for="htmlwidget-416566eb193bf50d04e6">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":[false,false,true,false,false,false,false,true,true,false,false,false,false,false,false,false,false,true,true,true,true,false,false,false,false,true,true,true,false,false,false,true],"group2_filter":[true,true,true,true,false,true,false,true,true,true,true,false,false,false,false,false,false,true,true,true,true,false,false,false,false,true,true,true,false,true,false,true],"settings":{"kpi":"count","comparison":"share","decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script><p>using selection:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/kpiwidget.html">kpiwidget</a></span><span class="op">(</span></span>
@@ -386,7 +392,7 @@ pamarater).</p>
 <span>  group1 <span class="op">=</span> <span class="op">~</span> <span class="va">cyl</span> <span class="op">==</span> <span class="fl">4</span>,</span>
 <span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div id="htmlwidget-72cbf064100ce560a04c" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
+<div id="htmlwidget-72cbf064100ce560a04c" style="width:auto;height:25px;" class="kpiwidget html-widget"></div>
 <script type="application/json" data-for="htmlwidget-72cbf064100ce560a04c">{"x":{"data":[21,21,22.8,21.4,18.1,24.4,22.8,19.2,17.8,32.4,30.4,33.9,21.5,27.3,26,30.4,19.7,21.4],"key":[1,2,3,4,6,8,9,10,11,18,19,20,21,26,27,28,30,32],"group1_filter":[false,false,true,false,false,true,true,false,false,true,true,true,true,true,true,true,false,true],"group2_filter":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],"settings":{"kpi":"count","comparison":"share","decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
@@ -404,7 +410,7 @@ pamarater).</p>
 <span>  decimals <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div id="htmlwidget-d11fc4360aa0230696d7" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
+<div id="htmlwidget-d11fc4360aa0230696d7" style="width:auto;height:25px;" class="kpiwidget html-widget"></div>
 <script type="application/json" data-for="htmlwidget-d11fc4360aa0230696d7">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"mean","comparison":null,"decimals":3,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="section level3">
@@ -418,7 +424,7 @@ pamarater).</p>
 <span>  big_mark <span class="op">=</span> <span class="st">" ,"</span>,</span>
 <span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div id="htmlwidget-21c7483268bafca56cec" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
+<div id="htmlwidget-21c7483268bafca56cec" style="width:auto;height:25px;" class="kpiwidget html-widget"></div>
 <script type="application/json" data-for="htmlwidget-21c7483268bafca56cec">{"x":{"data":[160,160,108,258,360,225,360,146.7,140.8,167.6,167.6,275.8,275.8,275.8,472,460,440,78.7,75.7,71.09999999999999,120.1,318,304,350,400,79,120.3,95.09999999999999,351,145,301,121],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"sum","comparison":null,"decimals":1,"big_mark":" ,","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="section level3">
@@ -432,7 +438,7 @@ pamarater).</p>
 <span>  prefix <span class="op">=</span> <span class="st">"mean mpg: "</span>,</span>
 <span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div id="htmlwidget-1834a22cd196f3aa03a1" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
+<div id="htmlwidget-1834a22cd196f3aa03a1" style="width:auto;height:25px;" class="kpiwidget html-widget"></div>
 <script type="application/json" data-for="htmlwidget-1834a22cd196f3aa03a1">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"mean","comparison":null,"decimals":1,"big_mark":" ","prefix":"mean mpg: ","suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="section level3">
@@ -448,9 +454,32 @@ pamarater).</p>
 <span>  suffix <span class="op">=</span> <span class="st">" %"</span>,</span>
 <span>  height <span class="op">=</span> <span class="st">"25px"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div id="htmlwidget-28515d92cb327f90c9eb" style="width:700px;height:25px;" class="kpiwidget html-widget"></div>
+<div id="htmlwidget-28515d92cb327f90c9eb" style="width:auto;height:25px;" class="kpiwidget html-widget"></div>
 <script type="application/json" data-for="htmlwidget-28515d92cb327f90c9eb">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":[false,false,true,false,false,false,false,true,true,false,false,false,false,false,false,false,false,true,true,true,true,false,false,false,false,true,true,true,false,false,false,true],"group2_filter":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],"settings":{"kpi":"count","comparison":"share","decimals":1,"big_mark":" ","prefix":null,"suffix":" %","crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
 </div>
+</div>
+<div class="section level2">
+<h2 id="bringing-it-all-together">Bringing It All Together<a class="anchor" aria-label="anchor" href="#bringing-it-all-together"></a>
+</h2>
+<div class="form-group crosstalk-input crosstalk-input-slider js-range-slider" id="wt" style="width: 100%;">
+<label class="control-label" for="wt">Weight</label>
+<input data-skin="shiny" data-type="double" data-min="1.513" data-max="5.424" data-from="1.513" data-to="5.424" data-step="0.05" data-grid="true" data-grid-num="9.7775" data-grid-snap="false" data-prettify-separator="," data-keyboard="true" data-keyboard-step="1.27844541038098" data-drag-interval="true" data-data-type="number"><script type="application/json" data-for="wt">{
+  "values": [1.513, 1.615, 1.835, 1.935, 2.14, 2.2, 2.32, 2.465, 2.62, 2.77, 2.78, 2.875, 3.15, 3.17, 3.19, 3.215, 3.435, 3.44, 3.44, 3.44, 3.46, 3.52, 3.57, 3.57, 3.73, 3.78, 3.84, 3.845, 4.07, 5.25, 5.345, 5.424],
+  "keys": [28, 19, 20, 26, 27, 18, 3, 21, 1, 30, 32, 2, 9, 29, 8, 4, 23, 5, 10, 11, 6, 22, 7, 31, 13, 14, 24, 25, 12, 15, 17, 16],
+  "group": ["mtcars_group"]
+}</script>
+</div>
+<div id="htmlwidget-0caf26d4e3c00206b0c5" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0caf26d4e3c00206b0c5">{"x":{"crosstalkOptions":{"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group":"mtcars_group"},"style":"bootstrap","filter":"none","vertical":false,"extensions":["Scroller"],"data":[["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE","Merc 450SL","Merc 450SLC","Cadillac Fleetwood","Lincoln Continental","Chrysler Imperial","Fiat 128","Honda Civic","Toyota Corolla","Toyota Corona","Dodge Challenger","AMC Javelin","Camaro Z28","Pontiac Firebird","Fiat X1-9","Porsche 914-2","Lotus Europa","Ford Pantera L","Ferrari Dino","Maserati Bora","Volvo 142E"],[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],[6,6,4,6,8,6,8,4,4,6,6,8,8,8,8,8,8,4,4,4,4,8,8,8,8,4,4,4,8,6,8,4],[160,160,108,258,360,225,360,146.7,140.8,167.6,167.6,275.8,275.8,275.8,472,460,440,78.7,75.7,71.09999999999999,120.1,318,304,350,400,79,120.3,95.09999999999999,351,145,301,121],[110,110,93,110,175,105,245,62,95,123,123,180,180,180,205,215,230,66,52,65,97,150,150,245,175,66,91,113,264,175,335,109],[3.9,3.9,3.85,3.08,3.15,2.76,3.21,3.69,3.92,3.92,3.92,3.07,3.07,3.07,2.93,3,3.23,4.08,4.93,4.22,3.7,2.76,3.15,3.73,3.08,4.08,4.43,3.77,4.22,3.62,3.54,4.11],[2.62,2.875,2.32,3.215,3.44,3.46,3.57,3.19,3.15,3.44,3.44,4.07,3.73,3.78,5.25,5.424,5.345,2.2,1.615,1.835,2.465,3.52,3.435,3.84,3.845,1.935,2.14,1.513,3.17,2.77,3.57,2.78],[16.46,17.02,18.61,19.44,17.02,20.22,15.84,20,22.9,18.3,18.9,17.4,17.6,18,17.98,17.82,17.42,19.47,18.52,19.9,20.01,16.87,17.3,15.41,17.05,18.9,16.7,16.9,14.5,15.5,14.6,18.6],[0,0,1,1,0,1,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0,1,0,1,0,0,0,1],[1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1],[4,4,4,3,3,3,3,4,4,4,4,3,3,3,3,3,3,4,4,4,3,3,3,3,3,4,5,5,5,5,5,4],[4,4,1,1,2,1,4,2,2,4,4,3,3,3,4,4,4,1,2,1,1,2,2,4,2,1,2,2,4,6,8,2]],"container":"<table class=\"table table-condensed\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>mpg<\/th>\n      <th>cyl<\/th>\n      <th>disp<\/th>\n      <th>hp<\/th>\n      <th>drat<\/th>\n      <th>wt<\/th>\n      <th>qsec<\/th>\n      <th>vs<\/th>\n      <th>am<\/th>\n      <th>gear<\/th>\n      <th>carb<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"deferRender":true,"scrollY":300,"scroller":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7,8,9,10,11]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"mpg","targets":1},{"name":"cyl","targets":2},{"name":"disp","targets":3},{"name":"hp","targets":4},{"name":"drat","targets":5},{"name":"wt","targets":6},{"name":"qsec","targets":7},{"name":"vs","targets":8},{"name":"am","targets":9},{"name":"gear","targets":10},{"name":"carb","targets":11}],"order":[],"autoWidth":false,"orderClasses":false},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script><p>There are 32 records in unfiltered dataset.
+</p>
+<div id="htmlwidget-da0b268a2927f570ebf3" style="width:auto;height:auto;" class="kpiwidget html-widget"></div> <script type="application/json" data-for="htmlwidget-da0b268a2927f570ebf3">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"count","comparison":null,"decimals":0,"big_mark":" ","prefix":null,"suffix":" car(s) are currently selected.","crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script><br>
+On average they have
+<div id="htmlwidget-0ed12bb554391c49c2e3" style="width:auto;height:auto;" class="kpiwidget html-widget"></div> <script type="application/json" data-for="htmlwidget-0ed12bb554391c49c2e3">{"x":{"data":[110,110,93,110,175,105,245,62,95,123,123,180,180,180,205,215,230,66,52,65,97,150,150,245,175,66,91,113,264,175,335,109],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"mean","comparison":null,"decimals":0,"big_mark":" ","prefix":null,"suffix":" HP","crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script><br>
+and can drive
+<div id="htmlwidget-ec658d41f8c4f2d124e9" style="width:auto;height:auto;" class="kpiwidget html-widget"></div> <script type="application/json" data-for="htmlwidget-ec658d41f8c4f2d124e9">{"x":{"data":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":null,"group2_filter":null,"settings":{"kpi":"mean","comparison":null,"decimals":1,"big_mark":" ","prefix":null,"suffix":" mpg.","crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script><br>
+8 cylinder cars have
+<div id="htmlwidget-6b83523733b890d61edc" style="width:auto;height:auto;" class="kpiwidget html-widget"></div> <script type="application/json" data-for="htmlwidget-6b83523733b890d61edc">{"x":{"data":[110,110,93,110,175,105,245,62,95,123,123,180,180,180,205,215,230,66,52,65,97,150,150,245,175,66,91,113,264,175,335,109],"key":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],"group1_filter":[false,false,false,false,true,false,true,false,false,false,false,true,true,true,true,true,true,false,false,false,false,true,true,true,true,false,false,false,true,false,true,false],"group2_filter":[true,true,true,true,false,true,false,true,true,true,true,false,false,false,false,false,false,true,true,true,true,false,false,false,false,true,true,true,false,true,false,true],"settings":{"kpi":"mean","comparison":"ratio","decimals":1,"big_mark":" ","prefix":null,"suffix":null,"crosstalk_group":"mtcars_group"}},"evals":[],"jsHooks":[]}</script>
+times more HP than the rest of cars in selection.
 </div>
 <div class="section level2">
 <h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>

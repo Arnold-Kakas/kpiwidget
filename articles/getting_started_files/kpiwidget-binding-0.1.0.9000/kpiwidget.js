@@ -147,6 +147,19 @@ HTMLWidgets.widget({
     return {
       renderValue: function(x) {
 
+        // Set display style.
+        el.style.display = "inline-block";
+        el.style.verticalAlign = "middle";
+
+    // Fix: Ensure all widgets stay inline
+    setTimeout(() => {
+      document.querySelectorAll(".kpiwidget").forEach(el => {
+        el.style.display = "inline-block";
+        el.style.verticalAlign = "middle";
+        el.style.whiteSpace = "nowrap"; // Prevents breaking inline text
+      });
+    }, 50);
+
         // 1. Parse data if needed
         if (typeof x.data === "string") {
           try {
@@ -226,10 +239,6 @@ HTMLWidgets.widget({
         // ct_sel.on("change", function(e) { ... })
 
       },
-
-      resize: function(width, height) {
-        // No special resizing logic is needed here
-      }
     };
   }
 });
