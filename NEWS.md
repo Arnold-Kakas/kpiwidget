@@ -1,4 +1,4 @@
-# kpiwidget (development version)
+# kpiwidget 0.1.1
 
 # kpiwidget 0.1.0
 

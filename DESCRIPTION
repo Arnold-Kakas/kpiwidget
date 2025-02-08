@@ -1,6 +1,6 @@
 Package: kpiwidget
 Title: KPI Widgets for Quarto Dashboards with Crosstalk
-Version: 0.1.0.9000
+Version: 0.1.1
 Authors@R: 
     person("Arnold", "Kakas", , "kakasarnold@gmail.com", role = c("aut", "cre", "cph"))
 Description: Provides an easy way to create interactive KPI (key performance indicator) widgets for 'Quarto' dashboards using 'Crosstalk'. The package enables visualization of key metrics in a structured format, supporting interactive filtering and linking with other 'Crosstalk'-enabled components. Designed for use in 'Quarto' Dashboards.
