@@ -59,8 +59,8 @@ kpiwidget <- function(
     big_mark = " ",
     prefix = NULL,
     suffix = NULL,
-    width = NULL,
-    height = NULL,
+    width = "auto",
+    height = "auto",
     elementId = NULL,
     group = NULL) {
   # -------------------------------------------#

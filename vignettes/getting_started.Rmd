@@ -34,6 +34,7 @@ Before using `kpiwidget`, ensure that it is installed along with `crosstalk`:
 ```{r setup}
 library(kpiwidget)
 library(crosstalk)
+library(DT)
 library(dplyr)
 library(htmltools)
 ```
@@ -44,7 +45,7 @@ To enable interactivity, we first wrap our dataset in `SharedData` from `crossta
 
 ```{r}
 # Create a shared data object with row numbers as keys
-df_shared <- SharedData$new(mtcars, key = ~ 1:nrow(mtcars), group = "mtcars_group")
+df_shared <- crosstalk::SharedData$new(mtcars, key = ~ 1:nrow(mtcars), group = "mtcars_group")
 ```
 
 ## Adding Filters
@@ -52,7 +53,7 @@ df_shared <- SharedData$new(mtcars, key = ~ 1:nrow(mtcars), group = "mtcars_grou
 `crosstalk` allows dynamic filtering of data. Here, we add a filter to select vehicles based on the number of gears:
 
 ```{r}
-filter_checkbox("gear", "Gear", df_shared, ~gear, inline = TRUE)
+crosstalk::filter_checkbox("gear", "Gear", df_shared, ~gear, inline = TRUE)
 ```
 
 ## Using `kpiwidget`
@@ -291,6 +292,28 @@ kpiwidget(
   height = "25px"
 )
 ```
+
+## Bringing It All Together
+
+```{r example, echo=FALSE}
+  crosstalk::filter_slider("wt", "Weight", df_shared, ~wt, width = "100%")
+  
+  DT::datatable(df_shared, 
+            extensions = "Scroller",
+            style = "bootstrap",
+            class = "compact",
+            width = "100%",
+            options = list(deferRender = TRUE, 
+                           scrollY = 300,
+                           scroller = TRUE)
+            )
+```
+
+
+There are 32 records in unfiltered dataset. `r kpiwidget(data = df_shared, kpi = "count", column = "mpg", decimals = 0, suffix = " car(s) are currently selected.")`<br>
+On average they have `r kpiwidget(data = df_shared, kpi = 'mean', column = 'hp', decimals = 0, suffix = " HP")`<br>
+and can drive `r kpiwidget(data = df_shared, column = "mpg", kpi = "mean", suffix = " mpg.")`<br>
+8 cylinder cars have `r kpiwidget(data = df_shared, column = "hp", kpi = "mean", comparison = "ratio", group1 = ~ cyl == 8)` times more HP than the rest of cars in selection.
 
 
 ## Conclusion

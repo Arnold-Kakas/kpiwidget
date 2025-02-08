@@ -13,6 +13,7 @@ Imports:
     htmlwidgets
 Suggests: 
     dplyr,
+    DT,
     flexdashboard,
     htmltools,
     knitr,
